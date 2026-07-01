@@ -258,29 +258,21 @@ justify-content: center;
 text-decoration: none;
 transition: all 0.3s ease;
 }
-/* Real Page Flip Slide Animation Layout */
-.page-flip-container {
-  overflow-x: hidden;
-  position: relative;
-  width: 100%;
-}
-
-/* Slide Right (Next Page Animation) */
+/* सुधरा हुआ प्रीमियम बुक स्लाइड एनिमेशन */
 .flip-right-anim {
-  animation: flipToRight 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  animation: slideFromRight 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-@keyframes flipToRight {
-  0% { transform: translateX(100%); opacity: 0; }
-  100% { transform: translateX(0); opacity: 1; }
+@keyframes slideFromRight {
+  0% { transform: translateY(40px); opacity: 0; filter: blur(4px); }
+  100% { transform: translateY(0); opacity: 1; filter: blur(0); }
 }
 
-/* Slide Left (Previous Page Animation) */
 .flip-left-anim {
-  animation: flipToLeft 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  animation: slideFromLeft 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-@keyframes flipToLeft {
-  0% { transform: translateX(-100%); opacity: 0; }
-  100% { transform: translateX(0); opacity: 1; }
+@keyframes slideFromLeft {
+  0% { transform: translateY(-40px); opacity: 0; filter: blur(4px); }
+  100% { transform: translateY(0); opacity: 1; filter: blur(0); }
 }
 
 /* Contacts Section - Premium WhatsApp Link Button */
@@ -376,9 +368,8 @@ transition: all 0.3s ease;
 </div>
 <div class="contact-item">
 <strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a>
-</div>
-<div style="text-align: center; margin-top: 10px;">
-<a href="https://wa.me!" class="wa-contact-btn" target="_blank">Chat On WhatsApp</a>
+<div style="text-align: center; margin-top: 25px;">
+  <a href="https://whatsapp.com!" class="wa-contact-btn" target="_blank" style="display: inline-block; padding: 14px 30px; background-color: #25d366; color: #fff; font-weight: bold; text-decoration: none; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px;">Chat On WhatsApp</a>
 </div>
 </div>
 </div>
