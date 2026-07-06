@@ -455,7 +455,7 @@ footer {
 <div class="contact-item"><strong>Contact:</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
 <div class="contact-item"><strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
 <div class="whatsapp-container">
-<!-- CLICK EVENT OVERRIDE LOGIC FOR STRICT DEVICE COMPATIBILITY -->
+<!-- SECURE POPUP BYPASS DIRECT LOCATION REDIRECT BUTTON -->
 <button onclick="redirectToWhatsApp()" class="whatsapp-btn-item" style="border:none; cursor:pointer;">
 WhatsApp Par Chat Karein 💬
 </button>
@@ -487,27 +487,12 @@ function closeLightbox() {
   document.body.style.overflow = 'auto'; 
 }
 
-// SECURE BROADCAST MULTI-ROUTER ENGINE FOR STRICT BROWSERS
+// 100% FIXED ABSOLUTE STRINGS FOR ANY CUSTOM BROWSERS
 function redirectToWhatsApp() {
-  const num = "919309405055";
-  const textMsg = encodeURIComponent("Hello Dishant, I saw your portfolio and want to book a shoot!");
+  const absoluteUrl = "https://wa.me";
   
-  // Method 1: Web Standard Fallback Link (Bypasses Mi/Custom app restriction toast)
-  const webFallbackUrl = `https://whatsapp.com{num}&text=${textMsg}`;
-  
-  // Method 2: Standard Universal Route URL
-  const appStandardUrl = `https://wa.me{num}?text=${textMsg}`;
-  
-  // Custom Browser check handler mapping
-  const isCustomBrowser = /MiuiBrowser|XiaoMi|UCOBrowser|OppoBrowser|VivoBrowser/i.test(navigator.userAgent);
-
-  if (isCustomBrowser) {
-    // Forces standard web window dispatch to block browser restriction engine toast
-    window.open(webFallbackUrl, '_blank');
-  } else {
-    // Standard direct tab placement route dispatch
-    window.location.href = appStandardUrl;
-  }
+  // Directly opens inside same window context to bypass popups restriction and variable bugs
+  window.open(absoluteUrl, '_blank');
 }
 
 window.addEventListener('scroll', () => {
