@@ -114,8 +114,6 @@ nav a:hover, nav a.active {
   max-width: 420px;
   margin-bottom: 30px;
 }
-
-/* CONTINUOUS ROTATION LIQUID CONTAINER SETUP */
 .liquid-container {
   position: relative;
   display: inline-block;
@@ -147,7 +145,6 @@ nav a:hover, nav a.active {
   text-transform: uppercase;
   z-index: 5;
 }
-/* LIQUID BG ANIMATION RUNS IMMEDIATELY ON SITE LOAD INSTEAD OF HOVER */
 .liquid-bg {
   position: absolute;
   top: -40%;
@@ -163,7 +160,6 @@ nav a:hover, nav a.active {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -264,33 +260,6 @@ nav a:hover, nav a.active {
 }
 .contact-item a:hover {
   color: #000;
-}
-.whatsapp-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-.whatsapp-btn-item {
-  background-color: #25D366;
-  color: white;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 25px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 15px rgba(37,211,102,0.2);
-  -webkit-tap-highlight-color: transparent;
-}
-.whatsapp-btn-item:hover {
-  background-color: #1ebd56;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(37,211,102,0.3);
 }
 .lightbox {
   display: none;
@@ -454,12 +423,6 @@ footer {
 <div class="contact-item"><strong>Instagram:</strong> <a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
 <div class="contact-item"><strong>Contact:</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
 <div class="contact-item"><strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
-<div class="whatsapp-container">
-<!-- SECURE POPUP BYPASS DIRECT LOCATION REDIRECT BUTTON -->
-<button onclick="redirectToWhatsApp()" class="whatsapp-btn-item" style="border:none; cursor:pointer;">
-WhatsApp Par Chat Karein 💬
-</button>
-</div>
 </div>
 </div>
 </section>
@@ -486,15 +449,6 @@ function closeLightbox() {
   lightboxImg.src = '';
   document.body.style.overflow = 'auto'; 
 }
-
-// 100% FIXED ABSOLUTE STRINGS FOR ANY CUSTOM BROWSERS
-function redirectToWhatsApp() {
-  const absoluteUrl = "https://wa.me";
-  
-  // Directly opens inside same window context to bypass popups restriction and variable bugs
-  window.open(absoluteUrl, '_blank');
-}
-
 window.addEventListener('scroll', () => {
   const sections = document.querySelectorAll('section, div.container, #contact');
   const navLinks = document.querySelectorAll('nav a');
