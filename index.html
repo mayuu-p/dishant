@@ -114,6 +114,8 @@ nav a:hover, nav a.active {
   max-width: 420px;
   margin-bottom: 30px;
 }
+
+/* CONTINUOUS ROTATION LIQUID CONTAINER SETUP */
 .liquid-container {
   position: relative;
   display: inline-block;
@@ -124,6 +126,7 @@ nav a:hover, nav a.active {
   cursor: pointer;
   transition: all 0.4s ease;
   z-index: 1;
+  transform: translateY(0);
 }
 .liquid-container:hover {
   transform: translateY(-3px);
@@ -143,27 +146,24 @@ nav a:hover, nav a.active {
   letter-spacing: 2px;
   text-transform: uppercase;
   z-index: 5;
-  transition: color 0.4s ease;
 }
+/* LIQUID BG ANIMATION RUNS IMMEDIATELY ON SITE LOAD INSTEAD OF HOVER */
 .liquid-bg {
   position: absolute;
-  top: 100%;
+  top: -40%;
   left: -50%;
   width: 200%;
   height: 200%;
   background: #000;
   border-radius: 42%;
   z-index: 2;
-  transition: top 0.8s cubic-bezier(0.25,1,0.2,1);
-}
-.liquid-container:hover .liquid-bg {
-  top: -40%;
-  animation: spinLiquid 4s linear infinite;
+  animation: spinLiquid 5s linear infinite;
 }
 @keyframes spinLiquid {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -455,7 +455,7 @@ footer {
 <div class="contact-item"><strong>Contact:</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
 <div class="contact-item"><strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
 <div class="whatsapp-container">
-<!-- CLICK TRRIGERS DYNAMIC SCRIPT LOGIC TO PREVENT BLOCKING -->
+<!-- CLICK EVENT OVERRIDE LOGIC FOR STRICT DEVICE COMPATIBILITY -->
 <button onclick="redirectToWhatsApp()" class="whatsapp-btn-item" style="border:none; cursor:pointer;">
 WhatsApp Par Chat Karein 💬
 </button>
@@ -487,13 +487,27 @@ function closeLightbox() {
   document.body.style.overflow = 'auto'; 
 }
 
-// SAFE CURRENT TAB FORCED LOCATION UPDATER
+// SECURE BROADCAST MULTI-ROUTER ENGINE FOR STRICT BROWSERS
 function redirectToWhatsApp() {
   const num = "919309405055";
-  const txt = encodeURIComponent("Hello Dishant, I saw your portfolio and want to book a shoot!");
+  const textMsg = encodeURIComponent("Hello Dishant, I saw your portfolio and want to book a shoot!");
   
-  // Directly opens inside same window context to bypass popups restriction
-  window.location.href = `https://wa.me{num}?text=${txt}`;
+  // Method 1: Web Standard Fallback Link (Bypasses Mi/Custom app restriction toast)
+  const webFallbackUrl = `https://whatsapp.com{num}&text=${textMsg}`;
+  
+  // Method 2: Standard Universal Route URL
+  const appStandardUrl = `https://wa.me{num}?text=${textMsg}`;
+  
+  // Custom Browser check handler mapping
+  const isCustomBrowser = /MiuiBrowser|XiaoMi|UCOBrowser|OppoBrowser|VivoBrowser/i.test(navigator.userAgent);
+
+  if (isCustomBrowser) {
+    // Forces standard web window dispatch to block browser restriction engine toast
+    window.open(webFallbackUrl, '_blank');
+  } else {
+    // Standard direct tab placement route dispatch
+    window.location.href = appStandardUrl;
+  }
 }
 
 window.addEventListener('scroll', () => {
