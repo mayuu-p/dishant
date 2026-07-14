@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
 <title>Dishant Mote Portfolio</title>
 <style>
-@import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Playfair+Display:wght@400;700&display=swap');
 * {
 box-sizing: border-box;
 margin: 0;
@@ -42,29 +42,6 @@ font-size: 1.1rem;
 letter-spacing: 3px;
 text-transform: uppercase;
 color: #000;
-display: flex;
-align-items: center;
-gap: 15px;
-}
-.logo-camera {
-width: 40px;
-height: 40px;
-opacity: 0;
-animation: cameraFlyIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-animation-delay: 0.3s;
-}
-@keyframes cameraFlyIn {
-0% {
-opacity: 0;
-transform: translateY(-100px) scale(0.5);
-}
-50% {
-opacity: 1;
-}
-100% {
-opacity: 1;
-transform: translateY(0) scale(1);
-}
 }
 nav a {
 color: #666;
@@ -79,94 +56,6 @@ transition: 0.3s;
 nav a:hover, nav a.active {
 color: #e5a93b;
 }
-/* Gate Animation Container */
-.gate-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: #000;
-z-index: 999;
-display: flex;
-justify-content: center;
-align-items: center;
-overflow: hidden;
-animation: gateContainerFadeOut 2s ease-out forwards;
-animation-delay: 1.5s;
-}
-
-.gate-left {
-position: absolute;
-width: 50%;
-height: 100%;
-background: #000;
-left: 0;
-top: 0;
-animation: gateLeftOpen 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.gate-right {
-position: absolute;
-width: 50%;
-height: 100%;
-background: #000;
-right: 0;
-top: 0;
-animation: gateRightOpen 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-@keyframes gateLeftOpen {
-0% {
-transform: translateX(0);
-}
-100% {
-transform: translateX(-100%);
-}
-}
-
-@keyframes gateRightOpen {
-0% {
-transform: translateX(0);
-}
-100% {
-transform: translateX(100%);
-}
-}
-
-@keyframes gateContainerFadeOut {
-0% {
-opacity: 1;
-}
-100% {
-opacity: 0;
-pointer-events: none;
-}
-}
-
-.camera-gate {
-position: absolute;
-width: 200px;
-height: 200px;
-background: url('camera.jpg') center/contain no-repeat;
-z-index: 1000;
-animation: cameraGateAnimation 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes cameraGateAnimation {
-0% {
-opacity: 1;
-transform: scale(1) translateY(0);
-}
-70% {
-opacity: 1;
-}
-100% {
-opacity: 0;
-transform: scale(0.8) translateY(-300px);
-}
-}
-
 .hero-section {
 display: flex;
 align-items: center;
@@ -214,6 +103,7 @@ margin-bottom: 20px;
 display: flex;
 align-items: center;
 gap: 15px;
+flex-wrap: wrap;
 }
 .hero-camera-img {
 width: 80px;
@@ -221,7 +111,7 @@ height: 80px;
 object-fit: contain;
 opacity: 0;
 animation: cameraSweepUp 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-animation-delay: 1.8s;
+animation-delay: 0.5s;
 }
 
 @keyframes cameraSweepUp {
@@ -503,18 +393,9 @@ font-size: 32px;
 </style>
 </head>
 <body>
-<!-- Gate Animation -->
-<div class="gate-container">
-<div class="gate-left"></div>
-<div class="gate-right"></div>
-<div class="camera-gate"></div>
-</div>
 
 <header>
-<div class="logo">
-<img src="camera.jpg" alt="Camera" class="logo-camera">
-DISHANT MOTE
-</div>
+<div class="logo">DISHANT MOTE</div>
 <nav>
 <a href="#home" class="active">Home</a>
 <a href="#portfolio">Portfolio</a>
