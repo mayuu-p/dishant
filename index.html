@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Dishant Mote Portfolio</title>
     
-    <!-- External modular stylesheets linked here safely -->
+    <!-- External stylesheets safely attached to ensure luxury render loops -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="intro.css">
 </head>
@@ -28,6 +28,11 @@
     </header>
 
     <section id="home" class="hero-section">
+        <!-- Fort Vega style blur background camera setup (No longer rotates) -->
+        <div class="luxury-compass-element">
+            <img src="camera.jpg" alt="Luxury Stationary Blun Blur Anchor">
+        </div>
+
         <!-- Giant Bold Background Watermark text layer -->
         <div class="fort-vega-text-bg">
             <div>DISHANT</div>
@@ -46,11 +51,6 @@
                 <div class="liquid-bg"></div>
                 <button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView();">View Portfolio</button>
             </div>
-        </div>
-
-        <!-- Fort Vega style scroll interactive lens element -->
-        <div class="luxury-compass-element" id="scrollCompass">
-            <img src="camera.jpg" alt="Interactive Shutter Element">
         </div>
     </section>
 
@@ -114,17 +114,8 @@
             document.body.style.overflow = 'auto';
         }
 
-        // SMOOTH SCI-FI ROTATION INTERACTION FOR COMPASS ELEMENT
-        const compass = document.getElementById('scrollCompass');
-        
         window.addEventListener('scroll', () => {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Map scroll movement directly to rotational degrees
-            let rotationDegrees = scrollTop * 0.35; 
-            compass.style.transform = `rotate(${rotationDegrees}deg)`;
-
-            // Navigation dynamic linking highlighter setup
             const sections = document.querySelectorAll('section, div.container, #contact');
             const navLinks = document.querySelectorAll('nav a');
             let current = '';
