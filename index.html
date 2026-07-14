@@ -1,613 +1,161 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-<title>Dishant Mote Portfolio</title>
-
-<style>
-@import url('https://googleapis.com');
-
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-}
-
-html {
-scroll-behavior: smooth;
-height: -webkit-fill-available;
-}
-
-body {
-background-color: #ffffff;
-color: #1c1c1c;
-font-family: 'Montserrat', sans-serif;
-overflow-x: hidden;
-position: relative;
-min-height: 100vh;
-}
-
-/* PREMIUM CINEMATIC GATE INTRO */
-.gate-intro-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-z-index: 99999;
-display: flex;
-overflow: hidden;
-pointer-events: none;
-perspective: 1000px;
-}
-
-.gate-panel {
-width: 50.5%;
-height: 100%;
-background: #0d0d0d;
-position: absolute;
-top: 0;
-pointer-events: auto;
-transition: transform 1.4s cubic-bezier(0.85, 0, 0.15, 1);
-display: flex;
-align-items: center;
-justify-content: flex-end;
-}
-
-.gate-left {
-left: 0;
-padding-right: 20px;
-}
-
-.gate-right {
-right: 0;
-justify-content: flex-start;
-padding-left: 20px;
-}
-
-/* Large split layout styling like the reference photo */
-.intro-title-half {
-font-family: 'Playfair Display', serif;
-font-size: 5rem;
-font-weight: 700;
-color: #ffffff;
-letter-spacing: 5px;
-text-transform: uppercase;
-user-select: none;
-opacity: 1;
-transition: opacity 0.8s ease;
-}
-
-.gate-intro-container.open .gate-left {
-transform: translateX(-100%);
-}
-
-.gate-intro-container.open .gate-right {
-transform: translateX(100%);
-}
-
-.gate-intro-container.open .intro-title-half {
-opacity: 0;
-}
-
-/* ULTRA PREMUM TRANSPARENT GLASS HEADER */
-header {
-background: rgba(255, 255, 255, 0.75);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-padding: 25px 50px;
-position: sticky;
-top: 0;
-z-index: 100;
-display: flex;
-justify-content: space-between;
-align-items: center;
-border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-header .logo {
-font-weight: 700;
-font-size: 1.1rem;
-letter-spacing: 4px;
-text-transform: uppercase;
-color: #000;
-}
-
-nav a {
-color: #555;
-text-decoration: none;
-margin-left: 30px;
-font-weight: 600;
-font-size: 11px;
-letter-spacing: 2px;
-text-transform: uppercase;
-transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-nav a:hover,
-nav a.active {
-color: #e5a93b;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Dishant Mote Portfolio</title>
+    
+    <!-- External CSS links safely attached without interface breaks -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="intro.css">
 </head>
-
-
-<style>
-/* LUXURY HERO WITH REF PHOTO CONTRAST BLENDING */
-.hero-section {
-display: flex;
-align-items: center;
-min-height: calc(100vh - 85px);
-width: 100%;
-position: relative;
-flex-wrap: wrap;
-background: radial-gradient(circle at 80% 20%, rgba(229,169,59,0.05) 0%, transparent 50%);
-}
-
-.hero-image-side {
-width: 50%;
-height: 100%;
-position: absolute;
-top: 0;
-left: 0;
-overflow: hidden;
-}
-
-.hero-image-side img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-mask-image: linear-gradient(to right, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
--webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-}
-
-.hero-text-side {
-width: 45%;
-margin-left: 55%;
-padding: 40px;
-z-index: 5;
-}
-
-.hero-text-side .sub-tag {
-font-size: 12px;
-font-weight: 700;
-letter-spacing: 4px;
-color: #e5a93b;
-text-transform: uppercase;
-margin-bottom: 15px;
-}
-
-.hero-text-side h1 {
-font-family: 'Playfair Display', serif;
-font-size: 3.5rem;
-font-weight: 700;
-line-height: 1.15;
-color: #111;
-margin-bottom: 25px;
-letter-spacing: -1px;
-}
-
-.hero-text-side h1 span {
-font-family: 'Playfair Display', serif;
-font-weight: 400;
-font-style: italic;
-color: #777;
-}
-
-.hero-text-side p {
-font-size: 15px;
-line-height: 1.8;
-color: #555;
-max-width: 440px;
-margin-bottom: 35px;
-}
-
-.liquid-container {
-position: relative;
-display: inline-block;
-border-radius: 30px;
-overflow: hidden;
-background: #e5a93b;
-border: 2px solid #e5a93b;
-cursor: pointer;
-transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-z-index: 1;
-}
-
-.liquid-container:hover {
-transform: translateY(-4px);
-box-shadow: 0 12px 30px rgba(229,169,59,0.35);
-border-color: #000;
-}
-
-.liquid-btn {
-position: relative;
-padding: 16px 38px;
-background: transparent;
-color: #fff;
-font-family: 'Montserrat', sans-serif;
-font-size: 11px;
-font-weight: 700;
-border: none;
-cursor: pointer;
-letter-spacing: 2px;
-text-transform: uppercase;
-z-index: 5;
-}
-
-.liquid-bg {
-position: absolute;
-top: -40%;
-left: -50%;
-width: 200%;
-height: 200%;
-background: #000;
-border-radius: 42%;
-z-index: 2;
-animation: spinLiquid 6s linear infinite;
-}
-
-@keyframes spinLiquid {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
-}
-
-.container {
-max-width: 1140px;
-margin: 0 auto;
-padding: 80px 20px;
-}
-
-.section-title {
-font-family: 'Playfair Display', serif;
-text-align: center;
-font-size: 2.5rem;
-font-weight: 700;
-margin-bottom: 60px;
-position: relative;
-letter-spacing: 1px;
-}
-
-.section-title::after {
-content: '';
-width: 40px;
-height: 3px;
-background: #e5a93b;
-position: absolute;
-bottom: -15px;
-left: 50%;
-transform: translateX(-50%);
-}
-
-.gallery-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-gap: 30px;
-}
-
-.gallery-item {
-position: relative;
-overflow: hidden;
-background: #fdfdfd;
-border-radius: 12px;
-cursor: pointer;
-height: 440px;
-transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.gallery-item img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.gallery-item:hover img {
-transform: scale(1.04);
-}
-
-.services-section {
-background-color: #ffffff;
-padding: 80px 20px;
-}
-
-.services-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-gap: 25px;
-max-width: 1140px;
-margin: 0 auto;
-}
-
-.services-section .service-card {
-background: #fcfcfc;
-border: 1px solid #f2f2f2;
-padding: 40px 30px;
-border-radius: 16px;
-text-align: center;
-transition: all 0.4s ease;
-}
-
-.services-section .service-card:hover {
-transform: translateY(-6px);
-box-shadow: 0 15px 35px rgba(0,0,0,0.04);
-border-color: #e5a93b !important;
-}
-
-.services-section .service-card div {
-font-size: 2.4rem;
-color: #e5a93b;
-margin-bottom: 15px;
-}
-
-.services-section .service-card h3 {
-font-size: 14px;
-font-weight: 700;
-text-transform: uppercase;
-letter-spacing: 1px;
-}
-
-.contact-section {
-background-color: #fafafa;
-border-top: 1px solid #f2f2f2;
-padding: 100px 20px;
-text-align: center;
-}
-
-.contact-container {
-max-width: 600px;
-margin: 0 auto;
-background: #ffffff;
-padding: 40px;
-border-radius: 16px;
-box-shadow: 0 10px 40px rgba(0,0,0,0.01);
-border: 1px solid #f2f2f2;
-}
-
-.contact-details {
-text-align: left;
-display: inline-block;
-width: 100%;
-max-width: 420px;
-}
-
-.contact-item {
-margin-bottom: 20px;
-font-size: 15px;
-color: #444;
-display: flex;
-align-items: center;
-flex-wrap: wrap;
-}
-
-.contact-item strong {
-color: #111;
-text-transform: uppercase;
-font-size: 11px;
-display: inline-block;
-width: 120px;
-letter-spacing: 1px;
-}
-
-.contact-item a {
-color: #e5a93b;
-text-decoration: none;
-font-weight: 600;
-transition: 0.3s;
-}
-
-.contact-item a:hover {
-color: #000;
-}
-
-.lightbox {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(255,255,255,0.98);
-z-index: 1000;
-justify-content: center;
-align-items: center;
-}
-
-.lightbox img {
-max-width: 90%;
-max-height: 85%;
-object-fit: contain;
-border-radius: 6px;
-box-shadow: 0 30px 70px rgba(0,0,0,0.07);
-}
-
-.close-box {
-position: absolute;
-top: 35px;
-right: 40px;
-color: #000;
-font-size: 45px;
-cursor: pointer;
-font-weight: 100;
-transition: 0.3s;
-line-height: 1;
-}
-
-.close-box:hover {
-color: #e5a93b;
-transform: rotate(90deg);
-}
-
-footer {
-text-align: center;
-padding: 40px 20px;
-background: #ffffff;
-font-size: 11px;
-letter-spacing: 2px;
-color: #999;
-border-top: 1px solid #f2f2f2;
-text-transform: uppercase;
-}
-
-@media (max-width: 768px) {
-header { padding: 20px; flex-direction: column; gap: 15px; }
-nav a { margin: 0 10px; font-size: 10px; }
-.hero-section { min-height: auto; }
-.hero-image-side { position: relative; width: 100%; height: 360px; }
-.hero-image-side img {
-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
--webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-}
-.hero-text-side { width: 100%; margin-left: 0; padding: 40px 20px; text-align: center; }
-.hero-text-side h1 { font-size: 2.6rem; }
-.hero-text-side p { margin: 0 auto 30px auto; }
-.intro-title-half { font-size: 2.5rem; }
-.gallery-grid, .services-grid { grid-template-columns: 1fr; }
-.gallery-item { height: 350px; }
-.contact-item { flex-direction: column; text-align: center; gap: 5px; }
-.contact-item strong { width: 100%; }
-.contact-details { text-align: center; }
-}
-</style>
-</head>
-
 <body>
 
-<!-- LUXURY SPLIT GATE TEXT INTRO -->
-<div class="gate-intro-container" id="gateIntro">
-<div class="gate-panel gate-left">
-<span class="intro-title-half">DISHANT</span>
-</div>
-<div class="gate-panel gate-right">
-<span class="intro-title-half">MOTE</span>
-</div>
-</div>
+    <!-- LUXURY MINIMALIST LOADING OVERLAY SHUTTER -->
+    <div class="luxury-gate-shutter" id="luxuryIntro">
+        <div class="shutter-wing shutter-left"></div>
+        <div class="shutter-wing shutter-right"></div>
+    </div>
 
-<header>
-<div class="logo">DISHANT MOTE</div>
-<nav>
-<a href="#home" class="active">Home</a>
-<a href="#portfolio">Portfolio</a>
-<a href="#services">Services</a>
-<a href="#contact">Contacts</a>
-</nav>
-</header>
+    <header>
+        <div class="logo">DISHANT MOTE</div>
+        <nav>
+            <a href="#home" class="active">Home</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contacts</a>
+        </nav>
+    </header>
 
-<section id="home" class="hero-section">
-<div class="hero-image-side">
-<img src="dishant.jpg" alt="Dishant Mote Portfolio">
-</div>
-<div class="hero-text-side">
-<p class="sub-tag">I'm Dishant Mote</p>
-<h1>Photographer<br><span>& Visual Artist</span></h1>
-<p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
-<div class="liquid-container">
-<div class="liquid-bg"></div>
-<button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView();">View Portfolio</button>
-</div>
-</div>
-</section>
+    <section id="home" class="hero-section">
+        <!-- Giant Bold Background Watermark text layer -->
+        <div class="fort-vega-text-bg">
+            <div>DISHANT</div>
+            <div>MOTE</div>
+        </div>
 
-<div class="container" id="portfolio">
-<h2 class="section-title">Portfolio</h2>
-<div class="gallery-grid">
-<div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1"></div>
-<div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2"></div>
-<div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3"></div>
-<div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4"></div>
-<div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5"></div>
-<div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6"></div>
-</div>
-</div>
+        <div class="hero-image-side">
+            <img src="dishant.jpg" alt="Dishant Mote Portfolio">
+        </div>
 
-<section id="services" class="services-section">
-<h2 class="section-title">My Services</h2>
-<div class="services-grid">
-<div class="service-card"><div>📷</div><h3>Photography</h3></div>
-<div class="service-card"><div>📹</div><h3>Videography</h3></div>
-<div class="service-card"><div>🎬</div><h3>Cinematic Reels</h3></div>
-<div class="service-card"><div>✨</div><h3>Candid Shoot</h3></div>
-<div class="service-card"><div>🧸</div><h3>Baby Shoot</h3></div>
-<div class="service-card"><div>🤰</div><h3>Maternity Shoot</h3></div>
-<div class="service-card"><div>💍</div><h3>Pre-Wedding</h3></div>
-</div>
-</section>
+        <div class="hero-text-side">
+            <p class="sub-tag">I'm Dishant Mote</p>
+            <h1>Photographer<br><span>& Visual Artist</span></h1>
+            <p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
+            <div class="liquid-container">
+                <div class="liquid-bg"></div>
+                <button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView();">View Portfolio</button>
+            </div>
+        </div>
 
-<section id="contact" class="contact-section">
-<h2 class="section-title">Contact Me</h2>
-<div class="contact-container">
-<div class="contact-details">
-<div class="contact-item"><strong>Name:</strong> Dishant Mote</div>
-<div class="contact-item"><strong>Instagram:</strong><a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
-<div class="contact-item"><strong>Contact:</strong><a href="tel:+919309405055">+91 9309405055</a></div>
-<div class="contact-item"><strong>Email:</strong><a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
-</div>
-</div>
-</section>
+        <!-- Fort Vega style scroll interactive lens element -->
+        <div class="luxury-compass-element" id="scrollCompass">
+            <img src="camera.jpg" alt="Interactive Shutter Element">
+        </div>
+    </section>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-<span class="close-box">×</span>
-<img id="lightbox-img" src="" alt="Popup Frame">
-</div>
+    <div class="container" id="portfolio">
+        <h2 class="section-title">Portfolio</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1"></div>
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2"></div>
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3"></div>
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4"></div>
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5"></div>
+            <div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6"></div>
+        </div>
+    </div>
 
-<footer><p>© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p></footer>
+    <section id="services" class="services-section">
+        <h2 class="section-title">My Services</h2>
+        <div class="services-grid">
+            <div class="service-card"><div>📷</div> &nbsp; <h3>Photography</h3></div>
+            <div class="service-card"><div>📹</div> &nbsp; <h3>Videography</h3></div>
+            <div class="service-card"><div>🎬</div> &nbsp; <h3>Cinematic Reels</h3></div>
+            <div class="service-card"><div>✨</div> &nbsp; <h3>Candid Shoot</h3></div>
+            <div class="service-card"><div>🧸</div> &nbsp; <h3>Baby Shoot</h3></div>
+            <div class="service-card"><div>🤰</div> &nbsp; <h3>Maternity Shoot</h3></div>
+            <div class="service-card"><div>💍</div> &nbsp; <h3>Pre-Wedding</h3></div>
+        </div>
+    </section>
 
-<script>
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="contact-container">
+            <div class="contact-details">
+                <div class="contact-item"><strong>Name:</strong> Dishant Mote</div>
+                <div class="contact-item"><strong>Instagram:</strong><a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
+                <div class="contact-item"><strong>Contact:</strong><a href="tel:+919309405055">+91 9309405055</a></div>
+                <div class="contact-item"><strong>Email:</strong><a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
+            </div>
+        </div>
+    </section>
 
-function openLightbox(el) {
-lightboxImg.src = el.querySelector('img').src;
-lightbox.style.display = 'flex';
-document.body.style.overflow = 'hidden';
-}
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="close-box">×</span>
+        <img id="lightbox-img" src="" alt="Popup Frame">
+    </div>
 
-function closeLightbox() {
-lightbox.style.display = 'none';
-lightboxImg.src = '';
-document.body.style.overflow = 'auto';
-}
+    <footer><p>© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p></footer>
 
-// PERFECT LUXURY GATE TRANSITION SCRIPT
-window.addEventListener('DOMContentLoaded', () => {
-document.body.style.overflow = 'hidden';
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
 
-// Website khulne ke 1.3 seconds baad luxury gates side me smoothly open honge
-setTimeout(() => {
-const introContainer = document.getElementById('gateIntro');
-introContainer.classList.add('open');
+        function openLightbox(el) {
+            lightboxImg.src = el.querySelector('img').src;
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
 
-setTimeout(() => {
-introContainer.remove();
-document.body.style.overflow = 'auto';
-}, 1400); // 1.4s smooth exit transition duration
-}, 1300);
-});
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            lightboxImg.src = '';
+            document.body.style.overflow = 'auto';
+        }
 
-window.addEventListener('scroll', () => {
-const sections = document.querySelectorAll('section, div.container, #contact');
-const navLinks = document.querySelectorAll('nav a');
-let current = '';
-sections.forEach(section => {
-const sectionTop = section.offsetTop;
-if (pageYOffset >= sectionTop - 150) { current = section.getAttribute('id'); }
-});
-navLinks.forEach(a => {
-a.classList.remove('active');
-if (a.getAttribute('href').includes(current)) { a.classList.add('active'); }
-});
-});
+        // SMOOTH SCI-FI ROTATION INTERACTION FOR COMPASS ELEMENT
+        const compass = document.getElementById('scrollCompass');
+        
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Map scroll movement directly to rotational degrees
+            let rotationDegrees = scrollTop * 0.35; 
+            compass.style.transform = `rotate(${rotationDegrees}deg)`;
 
-document.addEventListener('touchstart', function (e) {
-if (e.touches.length > 1) { e.preventDefault(); }
-}, { passive: false });
-</script>
+            // Navigation dynamic linking highlighter setup
+            const sections = document.querySelectorAll('section, div.container, #contact');
+            const navLinks = document.querySelectorAll('nav a');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollTop >= sectionTop - 150) { current = section.getAttribute('id'); }
+            });
+            
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) { a.classList.add('active'); }
+            });
+        });
+
+        // Trigger opening shutter intro effect
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                const intro = document.getElementById('luxuryIntro');
+                intro.classList.add('open');
+                setTimeout(() => {
+                    intro.remove();
+                    document.body.style.overflow = 'auto';
+                }, 1300);
+            }, 800);
+        });
+
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) { e.preventDefault(); }
+        }, { passive: false });
+    </script>
 </body>
 </html>
-
-
