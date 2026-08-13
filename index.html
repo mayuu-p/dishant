@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <title>Dishant Mote Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>Dishant Mote · Photography</title>
   <style>
-    /* ----- FONTS & RESET ----- */
-    @import url('https://googleapis.com');
+    /* ----- RESET & BASE ----- */
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
+
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: smooth; /* 👈 smooth scroll for all anchor links */
       height: -webkit-fill-available;
     }
 
-    /* ----- BODY RESET (no extra space) ----- */
     body {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f8f6f2;
+      color: #1c1c1c;
+      overflow-x: hidden;
       margin: 0;
       padding: 0;
-      background-color: #ffffff;
-      color: #1c1c1c;
-      font-family: 'Montserrat', sans-serif;
-      overflow-x: hidden;
+
+      /* ----- BACKGROUND LOCKED (fixed) via ::before ----- */
       position: relative;
-      min-height: 100vh;
     }
 
-    /* ----- FIXED BACKGROUND via ::before (replaces body background) ----- */
+    /* FIXED BACKGROUND – stays put while content scrolls */
     body::before {
       content: "";
       position: fixed;
@@ -37,135 +39,178 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      z-index: -1; /* Isse image text ke piche chali jayegi */
+      z-index: -1;
       background-image: url('background.jpg');
-      background-size: cover;          /* Image ko screen ke hisab se stretch karega */
-      background-position: center center; /* Image hamesha beech me rahegi */
-      background-repeat: no-repeat;    /* Image repeat nahi hogi */
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* extra safety for desktop */
+      /* ensures full coverage even on mobile with address bar */
+      will-change: transform;
     }
 
-    /* ----- HEADER (glassmorphism) ----- */
+    /* ----- GLASS CARD UTILITY (for readability) ----- */
+    .glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+    }
+
+    /* ----- HEADER (sticky + glass) ----- */
     header {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 20px 40px;
       position: sticky;
       top: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 18px 40px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      flex-wrap: wrap;
+      gap: 12px;
     }
+
     header .logo {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: #000;
+      color: #111;
     }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     nav a {
       color: #333;
       text-decoration: none;
-      margin-left: 20px;
       font-weight: 600;
       font-size: 10px;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      transition: 0.3s;
-    }
-    nav a:hover,
-    nav a.active {
-      color: #e5a93b;
+      padding: 6px 14px;
+      border-radius: 30px;
+      transition: 0.25s ease;
+      background: transparent;
     }
 
-    /* ----- HERO ----- */
+    nav a:hover,
+    nav a.active {
+      background: #e5a93b;
+      color: #fff;
+    }
+
+    /* ----- HERO SECTION (full viewport with spacing) ----- */
     .hero-section {
       display: flex;
       align-items: center;
       min-height: calc(100vh - 80px);
       width: 100%;
-      position: relative;
+      padding: 30px 20px;
+      gap: 30px;
       flex-wrap: wrap;
+      scroll-margin-top: 80px; /* ensures anchor doesn't hide behind sticky header */
     }
+
     .hero-image-side {
-      width: 50%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
+      flex: 1 1 45%;
+      min-width: 280px;
+      max-width: 600px;
+      border-radius: 24px;
       overflow: hidden;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
+
     .hero-image-side img {
       width: 100%;
-      height: 100%;
+      height: auto;
+      display: block;
       object-fit: cover;
-      mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
-      -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+      aspect-ratio: 4/5;
+      transition: 0.4s ease;
     }
+
+    .hero-image-side img:hover {
+      transform: scale(1.02);
+    }
+
     .hero-text-side {
-      width: 48%;
-      margin-left: 52%;
-      padding: 40px;
-      z-index: 5;
+      flex: 1 1 45%;
+      min-width: 280px;
+      padding: 40px 35px;
       background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 24px;
       border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.08);
     }
+
     .hero-text-side .sub-tag {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 3px;
       color: #e5a93b;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
+
     .hero-text-side h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
+      font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 700;
       line-height: 1.2;
       color: #111;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
+
     .hero-text-side h1 span {
-      font-family: 'Playfair Display', serif;
       font-weight: 400;
       font-style: italic;
       color: #444;
     }
+
     .hero-text-side p {
       font-size: 14px;
       line-height: 1.7;
       color: #222;
       max-width: 420px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
-    /* ----- LIQUID BUTTON ----- */
+    /* ----- LIQUID BUTTON (kept for style) ----- */
     .liquid-container {
       position: relative;
       display: inline-block;
-      border-radius: 30px;
+      border-radius: 40px;
       overflow: hidden;
       background: #e5a93b;
       border: 2px solid #e5a93b;
       cursor: pointer;
-      transition: all 0.4s ease;
-      z-index: 1;
+      transition: 0.35s ease;
       transform: translateY(0);
     }
+
     .liquid-container:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(229, 169, 59, 0.4);
+      box-shadow: 0 12px 28px rgba(229, 169, 59, 0.35);
       border-color: #000;
     }
+
     .liquid-btn {
       position: relative;
-      padding: 15px 35px;
+      padding: 14px 38px;
       background: transparent;
       color: #fff;
       font-family: 'Montserrat', sans-serif;
@@ -177,6 +222,7 @@
       text-transform: uppercase;
       z-index: 5;
     }
+
     .liquid-bg {
       position: absolute;
       top: -40%;
@@ -188,6 +234,7 @@
       z-index: 2;
       animation: spinLiquid 5s linear infinite;
     }
+
     @keyframes spinLiquid {
       0% {
         transform: rotate(0deg);
@@ -197,24 +244,20 @@
       }
     }
 
-    /* ----- CONTAINER & SECTIONS (with glass effect) ----- */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 60px 15px;
-    }
+    /* ----- SECTION TITLES ----- */
     .section-title {
       font-family: 'Playfair Display', serif;
       text-align: center;
       font-size: 2.2rem;
       font-weight: 700;
-      margin-bottom: 45px;
+      margin-bottom: 50px;
       position: relative;
       color: #111;
     }
+
     .section-title::after {
       content: '';
-      width: 35px;
+      width: 40px;
       height: 3px;
       background: #e5a93b;
       position: absolute;
@@ -223,242 +266,325 @@
       transform: translateX(-50%);
     }
 
-    /* ----- GALLERY (cards with transparency) ----- */
+    /* ----- CONTAINER ----- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* ----- GALLERY (glass cards) ----- */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 25px;
     }
+
     .gallery-item {
       position: relative;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      cursor: pointer;
+      height: 350px;
+      background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      border-radius: 8px;
-      cursor: pointer;
-      height: 400px;
-      transition: 0.5s;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: 0.4s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
     }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+    }
+
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .gallery-item:hover img {
-      transform: scale(1.03);
+      transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ----- SERVICES (cards with glass) ----- */
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ----- SERVICES (glass) ----- */
     .services-section {
-      background: rgba(255, 255, 255, 0.5);
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      padding: 60px 15px;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     }
+
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
       max-width: 1100px;
       margin: 0 auto;
     }
+
     .service-card {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 35px 25px;
-      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 28px 16px;
+      border-radius: 16px;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: 0.3s ease;
     }
+
     .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border-color: #e5a93b !important;
+      transform: translateY(-4px);
+      border-color: #e5a93b;
+      background: rgba(255, 255, 255, 0.85);
     }
-    .service-card h3 {
-      font-size: 15px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #111;
-    }
+
     .service-card div {
       font-size: 2.2rem;
       color: #e5a93b;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    .service-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #111;
+      letter-spacing: 0.5px;
     }
 
     /* ----- CONTACT (glass) ----- */
     .contact-section {
-      background: rgba(255, 255, 255, 0.4);
+      padding: 70px 20px;
+      background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 80px 15px;
-      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
+
     .contact-container {
-      max-width: 550px;
+      max-width: 540px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 32px 28px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.02);
     }
+
     .contact-details {
-      margin-top: 20px;
-      text-align: left;
-      display: inline-block;
-      width: 100%;
-      max-width: 400px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
+
     .contact-item {
-      margin-bottom: 15px;
       font-size: 14px;
       color: #222;
-      letter-spacing: 0.5px;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       flex-wrap: wrap;
+      gap: 6px 10px;
     }
+
     .contact-item strong {
       color: #111;
       text-transform: uppercase;
       font-size: 11px;
-      display: inline-block;
-      width: 110px;
+      letter-spacing: 0.8px;
+      min-width: 90px;
     }
+
     .contact-item a {
       color: #e5a93b;
       text-decoration: none;
       font-weight: 600;
-      transition: 0.3s;
+      transition: 0.2s;
+      word-break: break-word;
     }
+
     .contact-item a:hover {
       color: #000;
     }
 
-    /* ----- LIGHTBOX (overlay) ----- */
+    /* ----- LIGHTBOX ----- */
     .lightbox {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 1000;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 999;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
+
     .lightbox img {
       max-width: 90%;
-      max-height: 80%;
+      max-height: 85%;
       object-fit: contain;
-      border-radius: 4px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
+
     .close-box {
       position: absolute;
       top: 30px;
       right: 35px;
       color: #fff;
-      font-size: 40px;
+      font-size: 44px;
       cursor: pointer;
-      font-weight: 100;
+      font-weight: 200;
       transition: 0.3s;
       line-height: 1;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      opacity: 0.8;
     }
+
     .close-box:hover {
       color: #e5a93b;
       transform: rotate(90deg);
+      opacity: 1;
     }
 
     /* ----- FOOTER ----- */
     footer {
       text-align: center;
-      padding: 30px;
-      background: rgba(255, 255, 255, 0.6);
+      padding: 28px 20px;
+      background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       font-size: 10px;
       letter-spacing: 1.5px;
       color: #222;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* ----- MOBILE RESPONSIVE ----- */
+    /* ----- RESPONSIVE TWEAKS ----- */
     @media (max-width: 768px) {
       header {
-        padding: 15px;
+        padding: 14px 18px;
         flex-direction: column;
-        gap: 12px;
+        align-items: center;
       }
+
       nav a {
-        margin: 0 8px;
         font-size: 9px;
+        padding: 4px 12px;
       }
+
       .hero-section {
+        flex-direction: column;
+        padding: 20px 16px;
         min-height: auto;
+        gap: 20px;
       }
+
       .hero-image-side {
-        position: relative;
-        width: 100%;
-        height: 320px;
+        flex: 1 1 100%;
+        max-width: 100%;
       }
+
       .hero-image-side img {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
-        -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+        aspect-ratio: 4/3;
       }
+
       .hero-text-side {
-        width: 100%;
-        margin-left: 0;
-        padding: 30px 15px;
+        flex: 1 1 100%;
+        padding: 28px 20px;
         text-align: center;
-        background: rgba(255, 255, 255, 0.8);
       }
-      .hero-text-side h1 {
-        font-size: 2.1rem;
-      }
+
       .hero-text-side p {
-        margin: 0 auto 25px auto;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
       }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item {
+        height: 240px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .contact-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .contact-item strong {
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
       .gallery-grid {
         grid-template-columns: 1fr;
       }
+
       .gallery-item {
-        height: 320px;
+        height: 280px;
       }
-      .contact-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 3px;
+
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
-      .contact-item strong {
-        width: 100%;
+
+      .service-card {
+        padding: 20px 8px;
       }
-      .contact-details {
-        text-align: center;
-        margin-top: 15px;
+
+      .service-card div {
+        font-size: 1.8rem;
       }
+
+      .hero-text-side h1 {
+        font-size: 1.9rem;
+      }
+
+      .liquid-btn {
+        padding: 12px 26px;
+        font-size: 9px;
+      }
+
       .close-box {
-        top: 15px;
-        right: 20px;
-        font-size: 32px;
+        top: 18px;
+        right: 22px;
+        font-size: 34px;
       }
+    }
+
+    /* ----- scroll-margin for all sections (so sticky header doesn't cover) ----- */
+    #home {
+      scroll-margin-top: 80px;
+    }
+    #portfolio {
+      scroll-margin-top: 80px;
+    }
+    #services {
+      scroll-margin-top: 80px;
+    }
+    #contact {
+      scroll-margin-top: 80px;
     }
   </style>
 </head>
@@ -475,18 +601,18 @@
     </nav>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO (HOME) -->
   <section id="home" class="hero-section">
     <div class="hero-image-side">
       <img src="dishant.jpg" alt="Dishant Mote Portfolio">
     </div>
     <div class="hero-text-side">
       <p class="sub-tag">I'm Dishant Mote</p>
-      <h1>Photographer<br><span>& Visual Artist</span></h1>
+      <h1>Photographer<br><span>&amp; Visual Artist</span></h1>
       <p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
       <div class="liquid-container">
         <div class="liquid-bg"></div>
-        <button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView();">View Portfolio</button>
+        <button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });">View Portfolio</button>
       </div>
     </div>
   </section>
@@ -534,7 +660,7 @@
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <span class="close-box">×</span>
-    <img id="lightbox-img" src="" alt="Popup Frame">
+    <img id="lightbox-img" src="" alt="Popup" />
   </div>
 
   <!-- FOOTER -->
@@ -544,14 +670,17 @@
 
   <!-- SCRIPTS -->
   <script>
-    // Lightbox
+    // ----- LIGHTBOX -----
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
 
     function openLightbox(el) {
-      lightboxImg.src = el.querySelector('img').src;
-      lightbox.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+      const imgSrc = el.querySelector('img')?.src;
+      if (imgSrc) {
+        lightboxImg.src = imgSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     function closeLightbox() {
@@ -560,28 +689,45 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Active nav on scroll
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('section, div.container, #contact');
-      const navLinks = document.querySelectorAll('nav a');
+    // ----- ACTIVE NAV LINK ON SCROLL -----
+    const sections = document.querySelectorAll('section, .container');
+    const navLinks = document.querySelectorAll('nav a');
+
+    function updateActiveLink() {
       let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 150) {
-          current = section.getAttribute('id');
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (window.scrollY >= top) {
+          current = sec.getAttribute('id') || '';
         }
       });
-      navLinks.forEach(a => {
-        a.classList.remove('active');
-        if (a.getAttribute('href').includes(current)) {
-          a.classList.add('active');
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveLink);
+    window.addEventListener('load', updateActiveLink);
+
+    // ----- smooth scroll for nav links (fallback) -----
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
 
-    // Prevent pinch-to-zoom (mobile)
+    // ----- prevent zoom pinch (optional) -----
     document.addEventListener('touchstart', function(e) {
-      if (e.touches.length > 1) { e.preventDefault(); }
+      if (e.touches.length > 1) e.preventDefault();
     }, { passive: false });
   </script>
 
