@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover" />
   <title>Dishant Mote · Photography</title>
   <style>
-    /* ===== RESET & GLOBAL ===== */
+    /* ==========================================
+       RESET & GLOBAL STYLES
+    ========================================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
-      /* DISABLE TEXT SELECTION & LONG-PRESS COPY */
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
@@ -29,7 +30,6 @@
       --radius-lg: 28px;
       --radius-md: 18px;
       --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      /* SCALED UP FONT SIZES */
       --font-base: 16px;
       --font-sm: 0.85rem;
       --font-md: 1.1rem;
@@ -56,7 +56,9 @@
       font-size: var(--font-base);
     }
 
-    /* ===== FIXED BACKGROUND ===== */
+    /* ==========================================
+       FIXED BACKGROUND
+    ========================================== */
     body::before {
       content: "";
       position: fixed;
@@ -75,7 +77,9 @@
       -webkit-transform: translateZ(0);
     }
 
-    /* ===== GLASS UTILITY ===== */
+    /* ==========================================
+       GLASS UTILITY
+    ========================================== */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(16px) saturate(1.3);
@@ -100,7 +104,9 @@
       box-shadow: var(--shadow-lg);
     }
 
-    /* ===== HEADER ===== */
+    /* ==========================================
+       HEADER
+    ========================================== */
     header {
       position: sticky;
       top: 0;
@@ -129,13 +135,15 @@
       -webkit-text-fill-color: transparent;
     }
 
+    /* ==========================================
+       NAVIGATION - DESKTOP
+    ========================================== */
     nav {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
     }
 
-    /* ===== NAV LINKS – SCALED UP ===== */
     nav a {
       color: #444;
       text-decoration: none;
@@ -150,6 +158,7 @@
       position: relative;
       -webkit-user-select: none;
       user-select: none;
+      white-space: nowrap;
     }
 
     nav a::before {
@@ -170,7 +179,6 @@
       transform: scale(1);
     }
 
-    /* ACTIVE STATE – ONLY ONE WILL HAVE THIS */
     nav a.active {
       color: #fff;
       background: var(--gold);
@@ -189,7 +197,70 @@
       transition-duration: 0.08s;
     }
 
-    /* ===== HERO SECTION ===== */
+    /* ==========================================
+       ★★★ MOBILE HEADER FIX: SINGLE ROW NAV ★★★
+    ========================================== */
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 12px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px 8px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header .logo {
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: nowrap; /* ★★★ CRITICAL: prevents wrapping ★★★ */
+        gap: 2px;
+        align-items: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      nav a {
+        font-size: 0.6rem; /* ★★★ SCALED DOWN to fit ★★★ */
+        padding: 6px 10px;
+        letter-spacing: 0.5px;
+        white-space: nowrap; /* ★★★ Prevents text from wrapping inside link ★★★ */
+        flex-shrink: 0;
+      }
+    }
+
+    /* Extra small devices (phones under 400px) */
+    @media (max-width: 400px) {
+      header .logo {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+      }
+
+      nav a {
+        font-size: 0.5rem;
+        padding: 4px 8px;
+        letter-spacing: 0.3px;
+      }
+
+      header {
+        padding: 6px 8px;
+        gap: 2px 4px;
+      }
+    }
+
+    /* ==========================================
+       HERO SECTION
+    ========================================== */
     .hero-section {
       display: flex;
       align-items: center;
@@ -200,7 +271,6 @@
       scroll-margin-top: 80px;
     }
 
-    /* ===== FIXED MOBILE HERO IMAGE – NO CUT ===== */
     .hero-image-container {
       flex: 1 1 42%;
       min-width: 260px;
@@ -223,15 +293,12 @@
       box-shadow: var(--shadow-lg);
     }
 
-    /* ★★★ CRITICAL FIX: IMAGE NEVER CUTS ★★★ */
     .hero-image-container img {
       width: 100%;
       height: auto;
       aspect-ratio: 4/5;
       object-fit: contain;
-      /* Isse photo kabhi nahi kategi aur poori dikhega */
       max-height: 80vh;
-      /* Mobile screen ke hisab se height lock */
       display: block;
       transition: transform 0.6s ease;
       background: rgba(255, 255, 255, 0.1);
@@ -241,7 +308,6 @@
       transform: scale(1.03);
     }
 
-    /* ===== HERO TEXT – SCALED UP ===== */
     .hero-text-side {
       flex: 1 1 42%;
       min-width: 260px;
@@ -293,7 +359,9 @@
       opacity: 0.85;
     }
 
-    /* ===== LIQUID BUTTON – SCALED UP ===== */
+    /* ==========================================
+       LIQUID BUTTON
+    ========================================== */
     .liquid-btn-wrap {
       position: relative;
       display: inline-block;
@@ -352,7 +420,9 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== SECTION TITLES – SCALED UP ===== */
+    /* ==========================================
+       SECTION TITLES
+    ========================================== */
     .section-title {
       font-family: 'Georgia', serif;
       text-align: center;
@@ -376,14 +446,18 @@
       border-radius: 4px;
     }
 
-    /* ===== CONTAINER ===== */
+    /* ==========================================
+       CONTAINER
+    ========================================== */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 70px 20px;
     }
 
-    /* ===== GALLERY – SCALED UP ===== */
+    /* ==========================================
+       GALLERY
+    ========================================== */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -426,7 +500,9 @@
       transform: scale(1.06);
     }
 
-    /* ===== SERVICES – SCALED UP ===== */
+    /* ==========================================
+       SERVICES
+    ========================================== */
     .services-section {
       padding: 70px 20px;
       background: rgba(255, 255, 255, 0.2);
@@ -486,7 +562,9 @@
       letter-spacing: 0.8px;
     }
 
-    /* ===== CONTACT – SCALED UP ===== */
+    /* ==========================================
+       CONTACT
+    ========================================== */
     .contact-section {
       padding: 80px 20px;
       background: rgba(255, 255, 255, 0.15);
@@ -557,7 +635,9 @@
       color: #000;
     }
 
-    /* ===== LIGHTBOX ===== */
+    /* ==========================================
+       LIGHTBOX
+    ========================================== */
     .lightbox {
       display: none;
       position: fixed;
@@ -620,7 +700,9 @@
       background: rgba(0, 0, 0, 0.4);
     }
 
-    /* ===== FOOTER ===== */
+    /* ==========================================
+       FOOTER
+    ========================================== */
     footer {
       text-align: center;
       padding: 32px 20px;
@@ -633,7 +715,9 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
     @media (max-width: 768px) {
       :root {
         --font-base: 15px;
@@ -642,18 +726,6 @@
         --font-lg: 1.2rem;
         --font-xl: 1.8rem;
         --font-xxl: 2.4rem;
-      }
-
-      header {
-        padding: 12px 16px;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-
-      nav a {
-        font-size: var(--font-sm);
-        padding: 8px 16px;
       }
 
       .hero-section {
@@ -668,12 +740,10 @@
         max-width: 100%;
         border-radius: var(--radius-md);
         max-height: 60vh;
-        /* mobile image container limit */
       }
 
       .hero-image-container img {
         max-height: 55vh;
-        /* ensures full image visible */
         aspect-ratio: 4/5;
         object-fit: contain;
       }
@@ -780,7 +850,9 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- ==========================================
+       HEADER
+  ========================================== -->
   <header>
     <div class="logo">DISHANT MOTE</div>
     <nav id="navbar">
@@ -791,7 +863,9 @@
     </nav>
   </header>
 
-  <!-- HERO -->
+  <!-- ==========================================
+       HERO SECTION
+  ========================================== -->
   <section id="home" class="hero-section">
     <div class="hero-image-container">
       <img src="dishant.jpg" alt="Dishant Mote Portfolio" />
@@ -807,7 +881,9 @@
     </div>
   </section>
 
-  <!-- PORTFOLIO -->
+  <!-- ==========================================
+       PORTFOLIO
+  ========================================== -->
   <div class="container" id="portfolio">
     <h2 class="section-title">Portfolio</h2>
     <div class="gallery-grid">
@@ -820,7 +896,9 @@
     </div>
   </div>
 
-  <!-- SERVICES -->
+  <!-- ==========================================
+       SERVICES
+  ========================================== -->
   <section id="services" class="services-section">
     <h2 class="section-title">My Services</h2>
     <div class="services-grid">
@@ -834,7 +912,9 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ==========================================
+       CONTACT
+  ========================================== -->
   <section id="contact" class="contact-section">
     <h2 class="section-title">Contact Me</h2>
     <div class="contact-container">
@@ -847,75 +927,136 @@
     </div>
   </section>
 
-  <!-- LIGHTBOX -->
+  <!-- ==========================================
+       LIGHTBOX
+  ========================================== -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <span class="close-box">×</span>
     <img id="lightbox-img" src="" alt="Popup" />
   </div>
 
-  <!-- FOOTER -->
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
   <footer>
     <p>© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p>
   </footer>
 
-  <!-- ===== JAVASCRIPT – PRODUCTION READY ===== -->
+  <!-- ==========================================
+       JAVASCRIPT - COMPLETE SOLUTION
+  ========================================== -->
   <script>
     (function() {
       'use strict';
 
       // ==========================================
-      // 1. INTERSECTION OBSERVER – PERFECT ACTIVE LINK
+      // 1. PERFECT SCROLL-ACTIVATED NAVIGATION
+      //    Uses IntersectionObserver
       // ==========================================
+
       const navLinks = document.querySelectorAll('.nav-link');
       const sections = document.querySelectorAll('section, .container');
 
-      // Create an IntersectionObserver
-      const observer = new IntersectionObserver((entries) => {
-        // Find which section is most visible
-        let bestSection = null;
-        let bestRatio = 0;
+      if (sections.length && navLinks.length) {
 
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-            bestRatio = entry.intersectionRatio;
-            bestSection = entry.target;
+        // Create IntersectionObserver with multiple thresholds
+        const observer = new IntersectionObserver((entries) => {
+          // Find the section with the highest intersection ratio
+          let bestSection = null;
+          let bestRatio = 0;
+
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+              bestRatio = entry.intersectionRatio;
+              bestSection = entry.target;
+            }
+          });
+
+          // If we have a visible section, update the nav
+          if (bestSection) {
+            const sectionId = bestSection.getAttribute('id');
+
+            // Remove active class from ALL nav links
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Find and activate the matching link
+            navLinks.forEach(link => {
+              const href = link.getAttribute('href');
+              if (href === '#' + sectionId) {
+                link.classList.add('active');
+              }
+            });
           }
+        }, {
+          // Threshold array for better detection
+          threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+          // Offset for sticky header (80px header height)
+          rootMargin: '0px 0px -80px 0px'
         });
 
-        // If we have a visible section, update the nav
-        if (bestSection) {
-          const id = bestSection.getAttribute('id');
+        // Observe each section
+        sections.forEach(sec => observer.observe(sec));
+
+        // ==========================================
+        // 2. FALLBACK: Click handler for instant feedback
+        // ==========================================
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            // Remove active from all, add to clicked
+            navLinks.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+
+        // ==========================================
+        // 3. INITIAL ACTIVATION on page load
+        // ==========================================
+        function setInitialActive() {
+          const scrollPos = window.scrollY + 100;
+          let currentId = 'home';
+
+          sections.forEach(sec => {
+            const top = sec.offsetTop;
+            const height = sec.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              const id = sec.getAttribute('id');
+              if (id) currentId = id;
+            }
+          });
+
+          if (window.scrollY < 50) currentId = 'home';
+
           navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + id) {
+            if (link.getAttribute('href') === '#' + currentId) {
               link.classList.add('active');
             }
           });
         }
-      }, {
-        threshold: [0.15, 0.30, 0.50, 0.70],
-        rootMargin: '0px 0px -80px 0px' // offset for sticky header
-      });
 
-      // Observe each section
-      sections.forEach(sec => observer.observe(sec));
-
-      // ==========================================
-      // 2. FALLBACK: CLICK HANDLER FOR NAV (ensures active state on click)
-      // ==========================================
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          // Remove active from all, add to clicked
-          navLinks.forEach(item => item.classList.remove('active'));
-          this.classList.add('active');
-
-          // Let the scroll happen naturally (smooth)
-          // The observer will correct if needed, but we set it immediately for UX
+        window.addEventListener('load', function() {
+          setTimeout(setInitialActive, 100);
         });
-      });
+
+        // Re-check on resize
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(setInitialActive, 200);
+        });
+
+        // Scroll fallback
+        let scrollTimer;
+        window.addEventListener('scroll', function() {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(setInitialActive, 150);
+        });
+
+        console.log('✅ Navigation Observer Active');
+      }
 
       // ==========================================
-      // 3. LIGHTBOX
+      // 4. LIGHTBOX
       // ==========================================
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
@@ -940,7 +1081,7 @@
       });
 
       // ==========================================
-      // 4. PREVENT DOUBLE TAP ZOOM (iOS)
+      // 5. PREVENT DOUBLE TAP ZOOM (iOS)
       // ==========================================
       document.addEventListener('touchend', function(e) {
         const now = Date.now();
@@ -950,28 +1091,6 @@
         document.lastTouch = now;
       }, { passive: false });
 
-      // ==========================================
-      // 5. SMOOTH SCROLL FOR NAV (already handled by CSS)
-      //    but we ensure active class stays correct
-      // ==========================================
-
-      // Force a check on load and after a moment
-      window.addEventListener('load', function() {
-        // Trigger a manual check after layout settles
-        setTimeout(() => {
-          // Simulate a scroll event to force observer update
-          window.dispatchEvent(new Event('scroll'));
-        }, 150);
-      });
-
-      // Also re-check on resize
-      window.addEventListener('resize', function() {
-        setTimeout(() => {
-          window.dispatchEvent(new Event('scroll'));
-        }, 200);
-      });
-
-      console.log('✅ All systems ready: IntersectionObserver active, text selection disabled, hero image fixed.');
     })();
   </script>
 
