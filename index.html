@@ -2,36 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Dishant Mote · Photography</title>
   <style>
-    /* ----- RESET & BASE ----- */
+    /* ----- RESET & CUSTOM PROPERTIES (iOS inspired) ----- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      /* disable text selection & long-press highlight */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    :root {
+      --gold: #e5a93b;
+      --gold-light: #f5c96a;
+      --glass-bg: rgba(255, 255, 255, 0.58);
+      --glass-border: rgba(255, 255, 255, 0.35);
+      --shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.10);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     html {
-      scroll-behavior: smooth; /* 👈 smooth scroll for all anchor links */
+      scroll-behavior: smooth;
       height: -webkit-fill-available;
     }
 
     body {
       min-height: 100vh;
       min-height: -webkit-fill-available;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f8f6f2;
+      font-family: -apple-system, 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+      background: #f5f2ed;
       color: #1c1c1c;
       overflow-x: hidden;
       margin: 0;
       padding: 0;
-
-      /* ----- BACKGROUND LOCKED (fixed) via ::before ----- */
       position: relative;
+      /* background will be fixed via ::before */
     }
 
-    /* FIXED BACKGROUND – stays put while content scrolls */
+    /* ----- FIXED BACKGROUND (lock for all devices) ----- */
     body::before {
       content: "";
       position: fixed;
@@ -44,18 +62,36 @@
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      background-attachment: fixed; /* extra safety for desktop */
-      /* ensures full coverage even on mobile with address bar */
+      background-attachment: fixed;
       will-change: transform;
+      /* ensures no cut on mobile safari */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
-    /* ----- GLASS CARD UTILITY (for readability) ----- */
+    /* ----- GLASSMORPHISM UTILITY (premium iOS style) ----- */
     .glass {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(14px) saturate(1.2);
+      -webkit-backdrop-filter: blur(14px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
     }
 
     /* ----- HEADER (sticky + glass) ----- */
@@ -66,70 +102,113 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 40px;
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 16px 28px;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
+      transition: background 0.3s ease;
     }
 
     header .logo {
       font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: 3px;
+      font-size: 1.1rem;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
       color: #111;
+      background: linear-gradient(135deg, #222 0%, #555 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     nav {
       display: flex;
-      gap: 8px;
+      gap: 4px;
       flex-wrap: wrap;
     }
 
     nav a {
-      color: #333;
+      color: #444;
       text-decoration: none;
       font-weight: 600;
       font-size: 10px;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 30px;
-      transition: 0.25s ease;
+      padding: 8px 18px;
+      border-radius: 40px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       background: transparent;
+      position: relative;
+      /* liquid hover effect via pseudo */
     }
 
-    nav a:hover,
+    /* ----- PREMIUM LIQUID ACTIVE/ HOVER (iOS style) ----- */
+    nav a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 40px;
+      background: var(--gold);
+      opacity: 0;
+      transform: scale(0.92);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
+      box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25);
+    }
+
+    nav a:hover::before {
+      opacity: 0.15;
+      transform: scale(1);
+    }
+
     nav a.active {
-      background: #e5a93b;
       color: #fff;
+      background: var(--gold);
+      box-shadow: 0 4px 16px rgba(229, 169, 59, 0.35);
+      transform: scale(1.02);
     }
 
-    /* ----- HERO SECTION (full viewport with spacing) ----- */
+    nav a.active::before {
+      opacity: 1;
+      transform: scale(1);
+      background: var(--gold);
+    }
+
+    nav a:active {
+      transform: scale(0.94);
+      transition-duration: 0.08s;
+    }
+
+    /* ----- HERO SECTION (full viewport with glass) ----- */
     .hero-section {
       display: flex;
       align-items: center;
       min-height: calc(100vh - 80px);
-      width: 100%;
-      padding: 30px 20px;
-      gap: 30px;
+      padding: 30px 24px;
+      gap: 32px;
       flex-wrap: wrap;
-      scroll-margin-top: 80px; /* ensures anchor doesn't hide behind sticky header */
+      scroll-margin-top: 80px;
     }
 
     .hero-image-side {
-      flex: 1 1 45%;
-      min-width: 280px;
-      max-width: 600px;
-      border-radius: 24px;
+      flex: 1 1 42%;
+      min-width: 260px;
+      max-width: 560px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(2px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .hero-image-side:hover {
+      transform: scale(1.01);
+      box-shadow: var(--shadow-lg);
     }
 
     .hero-image-side img {
@@ -138,41 +217,47 @@
       display: block;
       object-fit: cover;
       aspect-ratio: 4/5;
-      transition: 0.4s ease;
+      transition: transform 0.6s ease;
     }
 
-    .hero-image-side img:hover {
-      transform: scale(1.02);
+    .hero-image-side:hover img {
+      transform: scale(1.03);
     }
 
     .hero-text-side {
-      flex: 1 1 45%;
-      min-width: 280px;
-      padding: 40px 35px;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.08);
+      flex: 1 1 42%;
+      min-width: 260px;
+      padding: 40px 36px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .hero-text-side:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .hero-text-side .sub-tag {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 3px;
-      color: #e5a93b;
+      color: var(--gold);
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .hero-text-side h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Georgia', 'Times New Roman', serif;
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.15;
       color: #111;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .hero-text-side h1 span {
@@ -185,35 +270,40 @@
       font-size: 14px;
       line-height: 1.7;
       color: #222;
-      max-width: 420px;
+      max-width: 400px;
       margin-bottom: 28px;
+      opacity: 0.85;
     }
 
-    /* ----- LIQUID BUTTON (kept for style) ----- */
-    .liquid-container {
+    /* ----- PREMIUM LIQUID BUTTON (iOS style) ----- */
+    .liquid-btn-wrap {
       position: relative;
       display: inline-block;
-      border-radius: 40px;
+      border-radius: 50px;
       overflow: hidden;
-      background: #e5a93b;
-      border: 2px solid #e5a93b;
+      background: var(--gold);
+      border: none;
       cursor: pointer;
-      transition: 0.35s ease;
-      transform: translateY(0);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 18px rgba(229, 169, 59, 0.25);
     }
 
-    .liquid-container:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(229, 169, 59, 0.35);
-      border-color: #000;
+    .liquid-btn-wrap:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(229, 169, 59, 0.35);
+    }
+
+    .liquid-btn-wrap:active {
+      transform: scale(0.94);
+      transition-duration: 0.08s;
     }
 
     .liquid-btn {
       position: relative;
-      padding: 14px 38px;
+      padding: 14px 36px;
       background: transparent;
       color: #fff;
-      font-family: 'Montserrat', sans-serif;
+      font-family: -apple-system, 'Helvetica Neue', sans-serif;
       font-size: 10px;
       font-weight: 700;
       border: none;
@@ -221,49 +311,51 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       z-index: 5;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .liquid-bg {
       position: absolute;
-      top: -40%;
+      top: -50%;
       left: -50%;
       width: 200%;
       height: 200%;
-      background: #000;
+      background: #1a1a1a;
       border-radius: 42%;
       z-index: 2;
-      animation: spinLiquid 5s linear infinite;
+      animation: spinLiquid 6s linear infinite;
+      opacity: 0.4;
+      mix-blend-mode: overlay;
     }
 
     @keyframes spinLiquid {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* ----- SECTION TITLES ----- */
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Georgia', serif;
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 700;
-      margin-bottom: 50px;
+      margin-bottom: 48px;
       position: relative;
       color: #111;
+      letter-spacing: -0.3px;
     }
 
     .section-title::after {
       content: '';
-      width: 40px;
+      width: 44px;
       height: 3px;
-      background: #e5a93b;
+      background: var(--gold);
       position: absolute;
       bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
+      border-radius: 4px;
     }
 
     /* ----- CONTAINER ----- */
@@ -276,112 +368,135 @@
     /* ----- GALLERY (glass cards) ----- */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
     }
 
     .gallery-item {
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      height: 350px;
-      background: rgba(255, 255, 255, 0.3);
+      height: 340px;
+      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      transition: 0.4s ease;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
     }
 
     .gallery-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(229, 169, 59, 0.25);
+    }
+
+    .gallery-item:active {
+      transform: scale(0.96);
+      transition-duration: 0.08s;
     }
 
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .gallery-item:hover img {
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
 
     /* ----- SERVICES (glass) ----- */
     .services-section {
       padding: 60px 20px;
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
       max-width: 1100px;
       margin: 0 auto;
     }
 
     .service-card {
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 28px 16px;
-      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(12px) saturate(1.2);
+      -webkit-backdrop-filter: blur(12px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 28px 14px;
+      border-radius: var(--radius-md);
       text-align: center;
-      transition: 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
     }
 
     .service-card:hover {
-      transform: translateY(-4px);
-      border-color: #e5a93b;
-      background: rgba(255, 255, 255, 0.85);
+      transform: translateY(-5px);
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-card:active {
+      transform: scale(0.95);
     }
 
     .service-card div {
       font-size: 2.2rem;
-      color: #e5a93b;
-      margin-bottom: 8px;
+      color: var(--gold);
+      margin-bottom: 6px;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover div {
+      transform: scale(1.1) rotate(-4deg);
     }
 
     .service-card h3 {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       color: #111;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     /* ----- CONTACT (glass) ----- */
     .contact-section {
       padding: 70px 20px;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .contact-container {
-      max-width: 540px;
+      max-width: 520px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(18px) saturate(1.3);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
       padding: 32px 28px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.02);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .contact-container:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .contact-details {
-      margin-top: 8px;
+      margin-top: 6px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -391,24 +506,31 @@
       font-size: 14px;
       color: #222;
       display: flex;
-      align-items: baseline;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 6px 10px;
+      gap: 6px 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
     }
 
     .contact-item strong {
       color: #111;
       text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.8px;
-      min-width: 90px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      min-width: 80px;
+      opacity: 0.7;
     }
 
     .contact-item a {
-      color: #e5a93b;
+      color: var(--gold);
       text-decoration: none;
       font-weight: 600;
-      transition: 0.2s;
+      transition: 0.2s ease;
       word-break: break-word;
     }
 
@@ -416,77 +538,99 @@
       color: #000;
     }
 
-    /* ----- LIGHTBOX ----- */
+    /* ----- LIGHTBOX (premium overlay) ----- */
     .lightbox {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(28px) saturate(1.2);
+      -webkit-backdrop-filter: blur(28px) saturate(1.2);
       z-index: 999;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; backdrop-filter: blur(0px); }
+      to { opacity: 1; backdrop-filter: blur(28px); }
     }
 
     .lightbox img {
-      max-width: 90%;
+      max-width: 92%;
       max-height: 85%;
       object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: scale(0.95);
+      animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes zoomIn {
+      to { transform: scale(1); }
     }
 
     .close-box {
       position: absolute;
-      top: 30px;
-      right: 35px;
+      top: 28px;
+      right: 32px;
       color: #fff;
       font-size: 44px;
       cursor: pointer;
       font-weight: 200;
-      transition: 0.3s;
+      transition: 0.3s ease;
       line-height: 1;
-      opacity: 0.8;
+      opacity: 0.7;
+      background: rgba(0, 0, 0, 0.2);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .close-box:hover {
-      color: #e5a93b;
-      transform: rotate(90deg);
       opacity: 1;
+      transform: rotate(90deg) scale(1.05);
+      background: rgba(0, 0, 0, 0.4);
     }
 
     /* ----- FOOTER ----- */
     footer {
       text-align: center;
       padding: 28px 20px;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       font-size: 10px;
       letter-spacing: 1.5px;
       color: #222;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* ----- RESPONSIVE TWEAKS ----- */
+    /* ----- RESPONSIVE TWEAKS (iOS friendly) ----- */
     @media (max-width: 768px) {
       header {
-        padding: 14px 18px;
+        padding: 12px 18px;
         flex-direction: column;
         align-items: center;
+        gap: 8px;
       }
 
       nav a {
         font-size: 9px;
-        padding: 4px 12px;
+        padding: 6px 14px;
       }
 
       .hero-section {
         flex-direction: column;
-        padding: 20px 16px;
+        padding: 20px 14px;
         min-height: auto;
         gap: 20px;
       }
@@ -494,6 +638,7 @@
       .hero-image-side {
         flex: 1 1 100%;
         max-width: 100%;
+        border-radius: var(--radius-md);
       }
 
       .hero-image-side img {
@@ -504,6 +649,7 @@
         flex: 1 1 100%;
         padding: 28px 20px;
         text-align: center;
+        border-radius: var(--radius-md);
       }
 
       .hero-text-side p {
@@ -514,78 +660,81 @@
 
       .gallery-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 14px;
       }
 
       .gallery-item {
-        height: 240px;
+        height: 220px;
+        border-radius: 14px;
       }
 
       .services-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-
-      .contact-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .contact-item strong {
-        min-width: auto;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .gallery-item {
-        height: 280px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
 
       .service-card {
-        padding: 20px 8px;
+        padding: 20px 10px;
       }
 
       .service-card div {
         font-size: 1.8rem;
       }
 
-      .hero-text-side h1 {
-        font-size: 1.9rem;
+      .contact-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2px;
+      }
+
+      .contact-item strong {
+        min-width: auto;
       }
 
       .liquid-btn {
-        padding: 12px 26px;
+        padding: 12px 28px;
         font-size: 9px;
       }
 
       .close-box {
-        top: 18px;
-        right: 22px;
-        font-size: 34px;
+        top: 16px;
+        right: 16px;
+        width: 48px;
+        height: 48px;
+        font-size: 32px;
       }
     }
 
-    /* ----- scroll-margin for all sections (so sticky header doesn't cover) ----- */
-    #home {
-      scroll-margin-top: 80px;
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .gallery-item {
+        height: 260px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .hero-text-side h1 {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
     }
-    #portfolio {
-      scroll-margin-top: 80px;
-    }
-    #services {
-      scroll-margin-top: 80px;
-    }
-    #contact {
-      scroll-margin-top: 80px;
-    }
+
+    /* scroll-margin for sticky header */
+    #home { scroll-margin-top: 80px; }
+    #portfolio { scroll-margin-top: 80px; }
+    #services { scroll-margin-top: 80px; }
+    #contact { scroll-margin-top: 80px; }
   </style>
 </head>
 <body>
@@ -593,7 +742,7 @@
   <!-- HEADER -->
   <header>
     <div class="logo">DISHANT MOTE</div>
-    <nav>
+    <nav id="navbar">
       <a href="#home" class="active">Home</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#services">Services</a>
@@ -604,15 +753,15 @@
   <!-- HERO (HOME) -->
   <section id="home" class="hero-section">
     <div class="hero-image-side">
-      <img src="dishant.jpg" alt="Dishant Mote Portfolio">
+      <img src="dishant.jpg" alt="Dishant Mote Portfolio" />
     </div>
     <div class="hero-text-side">
       <p class="sub-tag">I'm Dishant Mote</p>
-      <h1>Photographer<br><span>&amp; Visual Artist</span></h1>
+      <h1>Photographer<br /><span>&amp; Visual Artist</span></h1>
       <p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
-      <div class="liquid-container">
+      <div class="liquid-btn-wrap" onclick="document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });">
         <div class="liquid-bg"></div>
-        <button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });">View Portfolio</button>
+        <button class="liquid-btn">View Portfolio</button>
       </div>
     </div>
   </section>
@@ -621,12 +770,12 @@
   <div class="container" id="portfolio">
     <h2 class="section-title">Portfolio</h2>
     <div class="gallery-grid">
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1" /></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2" /></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3" /></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4" /></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5" /></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6" /></div>
     </div>
   </div>
 
@@ -649,10 +798,10 @@
     <h2 class="section-title">Contact Me</h2>
     <div class="contact-container">
       <div class="contact-details">
-        <div class="contact-item"><strong>Name:</strong> Dishant Mote</div>
-        <div class="contact-item"><strong>Instagram:</strong> <a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
-        <div class="contact-item"><strong>Contact:</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
-        <div class="contact-item"><strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
+        <div class="contact-item"><strong>Name</strong> Dishant Mote</div>
+        <div class="contact-item"><strong>Instagram</strong> <a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
+        <div class="contact-item"><strong>Contact</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
+        <div class="contact-item"><strong>Email</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
       </div>
     </div>
   </section>
@@ -670,65 +819,107 @@
 
   <!-- SCRIPTS -->
   <script>
-    // ----- LIGHTBOX -----
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+    (function() {
+      'use strict';
 
-    function openLightbox(el) {
-      const imgSrc = el.querySelector('img')?.src;
-      if (imgSrc) {
-        lightboxImg.src = imgSrc;
-        lightbox.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+      // ----- LIGHTBOX -----
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+
+      window.openLightbox = function(el) {
+        const img = el.querySelector('img');
+        if (img) {
+          lightboxImg.src = img.src;
+          lightbox.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
+      };
+
+      window.closeLightbox = function() {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+        document.body.style.overflow = 'auto';
+      };
+
+      // close on escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      // ----- NAVIGATION ACTIVE LINK (DYNAMIC) -----
+      const navLinks = document.querySelectorAll('#navbar a');
+      const sections = document.querySelectorAll('section, .container');
+
+      function updateActiveLink() {
+        let currentId = '';
+        const scrollPos = window.scrollY + 100; // offset for sticky header
+
+        sections.forEach(sec => {
+          const top = sec.offsetTop;
+          const height = sec.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            currentId = sec.getAttribute('id') || '';
+          }
+        });
+
+        // if we are at the very top, force 'home'
+        if (window.scrollY < 80) currentId = 'home';
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          const href = link.getAttribute('href');
+          if (href === '#' + currentId) {
+            link.classList.add('active');
+          }
+        });
       }
-    }
 
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-      document.body.style.overflow = 'auto';
-    }
-
-    // ----- ACTIVE NAV LINK ON SCROLL -----
-    const sections = document.querySelectorAll('section, .container');
-    const navLinks = document.querySelectorAll('nav a');
-
-    function updateActiveLink() {
-      let current = '';
-      sections.forEach(sec => {
-        const top = sec.offsetTop - 120;
-        if (window.scrollY >= top) {
-          current = sec.getAttribute('id') || '';
-        }
-      });
-
+      // ----- SMOOTH SCROLL FOR NAV (with active update) -----
       navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+            // update active after scroll (but we also have scroll listener)
+            // we'll let scroll listener do the job
+          }
+        });
+      });
+
+      // throttle scroll events for performance
+      let ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            updateActiveLink();
+            ticking = false;
+          });
+          ticking = true;
         }
       });
-    }
 
-    window.addEventListener('scroll', updateActiveLink);
-    window.addEventListener('load', updateActiveLink);
-
-    // ----- smooth scroll for nav links (fallback) -----
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: 'smooth' });
-        }
+      // initial call
+      window.addEventListener('load', function() {
+        updateActiveLink();
+        // also update after a small delay to catch any layout shifts
+        setTimeout(updateActiveLink, 100);
       });
-    });
 
-    // ----- prevent zoom pinch (optional) -----
-    document.addEventListener('touchstart', function(e) {
-      if (e.touches.length > 1) e.preventDefault();
-    }, { passive: false });
+      // also update on resize (for responsive offsets)
+      window.addEventListener('resize', updateActiveLink);
+
+      // ----- PREVENT DOUBLE TAP ZOOM (iOS) -----
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - (document.lastTouch || 0) < 300) {
+          e.preventDefault();
+        }
+        document.lastTouch = now;
+      }, { passive: false });
+
+    })();
   </script>
 
 </body>
