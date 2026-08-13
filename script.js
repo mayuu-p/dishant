@@ -1,8 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll("header, section, div[id]"); 
-    const navLinks = document.querySelectorAll(".nav-container a, nav a"); // Apne navbar ke links ka sahi selector ensure karein
+    const navLinks = document.querySelectorAll(".nav-container a, nav a");
 
-    // 1. Smooth Scroll aur URL Hash History Setup (Back button fix ke liye)
+    // 1. Initial State Setup: Jab website pehli baar load ho to ek home state save kar lo
+    if (!window.location.hash) {
+        history.replaceState({ pos: 'home' }, '', window.location.pathname);
+    }
+
+    // 2. Links par click karne par smooth scroll (Bina history kharab kiye)
     navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
@@ -11,14 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: "smooth" });
-                // Browser history me hash add karo taaki back karne par sahi section khule
-                history.pushState(null, null, targetId);
+                
+                // Naye page ki history create nahi hogi, sirf position change track hogi
+                if (targetId !== '#home' && targetId !== '#top') {
+                    history.pushState({ pos: 'inside' }, '', window.location.pathname + targetId);
+                } else {
+                    history.pushState({ pos: 'home' }, '', window.location.pathname);
+                }
                 updateActiveLink(targetId);
             }
         });
     });
 
-    // Active link toggle karne ka function
     function updateActiveLink(hash) {
         navLinks.forEach(link => {
             link.classList.remove("active");
@@ -28,19 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. Intersection Observer (Scroll ke sath auto change)
+    // 3. Intersection Observer: Scroll ke sath auto highlight badalna
     const observerOptions = {
         root: null,
-        rootMargin: "-40% 0px -40% 0px", // Screen ke bilkul center area ko target karega
+        rootMargin: "-40% 0px -40% 0px",
         threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Agar user manually scroll kar raha hai to track karo
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute("id");
-                if (id && (window.innerHeight + window.scrollY) < document.documentElement.scrollHeight - 50) {
+                // Normal scrolling mein history kharab nahi karenge, sirf link highlight badlenge
+                if (id && (window.innerHeight + window.scrollY) < document.documentElement.scrollHeight - 60) {
                     updateActiveLink(`#${id}`);
                 }
             }
@@ -49,21 +58,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sections.forEach(section => observer.observe(section));
 
-    // 3. Strict Bottom Fix (Contact Me section select hone ke liye)
+    // Strict Bottom Touch (Contact Me selection fix)
     window.addEventListener("scroll", () => {
         if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 60) {
-            // Niche '#' ke baad wahi naam likhna jo aapke contact section ki HTML id ka hai
             updateActiveLink("#contacts"); 
         }
     });
 
-    // 4. Browser Back Button press karne par pichle section par smoothly le jaane ke liye
-    window.addEventListener("popstate", () => {
-        const currentHash = window.location.hash || "#top"; // default to top if no hash
-        const targetSection = document.querySelector(currentHash);
-        if (targetSection) {
-            targetSection.scrollIntoView({ behavior: "smooth" });
-            updateActiveLink(currentHash);
+    // 4. SMART BACK BUTTON CONTROLLER (Direct home aur fir exit karne ke liye)
+    window.addEventListener("popstate", (event) => {
+        // Agar user kisi section se back dabata hai, to use seedha top par bhejo
+        if (window.scrollY > 100) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateActiveLink("#home");
+            // History state ko wapas clean kar do taaki agla click exit kare
+            history.replaceState({ pos: 'home' }, '', window.location.pathname);
+        } else {
+            // Agar user pehle se hi top/home par hai aur back dabata hai, to browser default behavior se direct exit ho jayega
+            history.back();
         }
     });
 });
