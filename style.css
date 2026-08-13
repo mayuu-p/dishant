@@ -1,23 +1,283 @@
-body {
-    margin: 0;
-    padding: 0;
-    position: relative;
-    min-height: 100vh;
+/* ==========================================
+   COMPLETE CSS WITH BACKGROUND BLUR
+   ========================================== */
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
-/* Background photo layer */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-    background-image: url('background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(5px); /* 30% yaani lagbhag 5px blur, isko aap kam-zyada kar sakte ho */
-    transform: scale(1.1); /* Blur hone par kinare kharab na ho isliye thoda scale up */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  height: -webkit-fill-available;
 }
+
+:root {
+  --gold: #e5a93b;
+  --gold-light: #f5c96a;
+  --glass-bg: rgba(255, 255, 255, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.10);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --font-base: 16px;
+  --font-sm: 0.85rem;
+  --font-md: 1.1rem;
+  --font-lg: 1.4rem;
+  --font-xl: 2.2rem;
+  --font-xxl: 3.2rem;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  font-family: -apple-system, 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+  background: #f5f2ed;
+  color: #1c1c1c;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-size: var(--font-base);
+}
+
+/* ★★★ BACKGROUND WITH 30% BLUR ★★★ */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  
+  /* ★★★ 30% BLUR EFFECT (8px out of ~25px max) ★★★ */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+
+/* ★★★ GLASS CARDS - Stay crisp and readable ★★★ */
+.glass-card,
+.hero-text-side,
+.service-card,
+.contact-container,
+.gallery-item,
+header {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Ensure all text stays sharp and readable */
+.hero-text-side h1,
+.hero-text-side p,
+.hero-text-side .sub-tag,
+.section-title,
+.service-card h3,
+.contact-item,
+footer p,
+nav a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Optional: Subtle overlay for better contrast */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+/* ==========================================
+   HEADER & NAVIGATION
+   ========================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  flex-wrap: wrap;
+  gap: 10px;
+  transition: background 0.3s ease;
+}
+
+header .logo {
+  font-weight: 700;
+  font-size: var(--font-lg);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #111;
+  background: linear-gradient(135deg, #222 0%, #555 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--font-sm);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 40px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+nav a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: var(--gold);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+  box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25);
+}
+
+nav a:hover::before {
+  opacity: 0.15;
+  transform: scale(1);
+}
+
+/* ★★★ ACTIVE STATE - Only ONE link should have this ★★★ */
+nav a.active {
+  color: #fff;
+  background: var(--gold);
+  box-shadow: 0 4px 16px rgba(229, 169, 59, 0.35);
+  transform: scale(1.02);
+}
+
+nav a.active::before {
+  opacity: 1;
+  transform: scale(1);
+  background: var(--gold);
+}
+
+nav a:active {
+  transform: scale(0.94);
+  transition-duration: 0.08s;
+}
+
+/* ==========================================
+   MOBILE HEADER
+   ========================================== */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header .logo {
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2px;
+    align-items: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav a {
+    font-size: 0.6rem;
+    padding: 6px 10px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  nav a {
+    font-size: 0.5rem;
+    padding: 4px 8px;
+    letter-spacing: 0.3px;
+  }
+
+  header {
+    padding: 6px 8px;
+    gap: 2px 4px;
+  }
+}
+
+/* ==========================================
+   SCROLL-MARGIN FOR SECTIONS
+   ========================================== */
+#home,
+#portfolio,
+#services,
+#contact {
+  scroll-margin-top: 80px;
+}
+
+/* ==========================================
+   REST OF YOUR STYLES (Hero, Gallery, Services, Contact)
+   ========================================== */
+/* ... your existing styles for hero, gallery, services, contact ... */
