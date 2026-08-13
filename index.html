@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,25 +17,31 @@
       height: -webkit-fill-available;
     }
 
-    /* ----- BACKGROUND IMAGE (applied as requested) ----- */
+    /* ----- BODY RESET (no extra space) ----- */
     body {
-      background-image: url('background.jpg');
-      background-size: cover;
-      /* Isse pic poori screen par fit ho jayegi */
-      background-position: center;
-      /* Isse pic hamesha center me rahegi */
-      background-repeat: no-repeat;
-      /* Isse pic baar-baar repeat nahi hogi */
-      background-attachment: fixed;
-      /* Scroll karne par background apni jagah ruka rahega */
-
-      /* rest of the body styles */
+      margin: 0;
+      padding: 0;
       background-color: #ffffff;
       color: #1c1c1c;
       font-family: 'Montserrat', sans-serif;
       overflow-x: hidden;
       position: relative;
       min-height: 100vh;
+    }
+
+    /* ----- FIXED BACKGROUND via ::before (replaces body background) ----- */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -1; /* Isse image text ke piche chali jayegi */
+      background-image: url('background.jpg');
+      background-size: cover;          /* Image ko screen ke hisab se stretch karega */
+      background-position: center center; /* Image hamesha beech me rahegi */
+      background-repeat: no-repeat;    /* Image repeat nahi hogi */
     }
 
     /* ----- HEADER (glassmorphism) ----- */
