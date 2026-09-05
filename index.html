@@ -4,1198 +4,705 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover" />
   <title>Dishant Mote · Photography</title>
+  <!-- fonts & lucide (from first code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
     /* ==========================================
-       COMPLETE CSS WITH BACKGROUND BLUR & NAV FIX
+       MERGED STYLES: FIRST CODE STRUCTURE + SECOND CODE ASSETS
     ========================================== */
-
-    /* Reset & Base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 80px;
-      height: -webkit-fill-available;
-    }
-
+    /* ---------- Design tokens (plain CSS) ---------- */
     :root {
+      --color-page: #0a0a0a;
+      --color-ink: #f2f0ec;
+      --color-soft: #9a978f;
+      --color-line: rgba(242,240,236,0.14);
+      --color-veil: rgba(255,255,255,0.05);
+      --font-display: "Instrument Serif", Georgia, serif;
+      --font-body: "Manrope", system-ui, sans-serif;
+      --font-mono: "DM Mono", ui-monospace, monospace;
       --gold: #e5a93b;
       --gold-light: #f5c96a;
-      --glass-bg: rgba(255, 255, 255, 0.58);
-      --glass-border: rgba(255, 255, 255, 0.35);
-      --shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.10);
-      --radius-lg: 28px;
-      --radius-md: 18px;
-      --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      --font-base: 16px;
-      --font-sm: 0.85rem;
-      --font-md: 1.1rem;
-      --font-lg: 1.4rem;
-      --font-xl: 2.2rem;
-      --font-xxl: 3.2rem;
+    }
+    :root.light {
+      --color-page: #f5f5f3;
+      --color-ink: #14130f;
+      --color-soft: #6c6a63;
+      --color-line: rgba(20,19,15,0.14);
+      --color-veil: rgba(20,19,15,0.04);
     }
 
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
     body {
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
-      font-family: -apple-system, 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
-      background: #f5f2ed;
-      color: #1c1c1c;
-      overflow-x: hidden;
       margin: 0;
-      padding: 0;
-      position: relative;
-      font-size: var(--font-base);
-    }
-
-    /* ★★★ BACKGROUND WITH 30% BLUR ★★★ */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -1;
+      background: var(--color-page);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      transition: background 260ms linear, color 260ms linear;
+      min-height: 100vh;
       background-image: url('background.jpg');
       background-size: cover;
       background-position: center center;
-      background-repeat: no-repeat;
       background-attachment: fixed;
-      will-change: transform;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      
-      /* ★★★ 30% BLUR EFFECT (8px out of ~25px max) ★★★ */
-      filter: blur(8px);
-      -webkit-filter: blur(8px);
+      background-blend-mode: overlay;
     }
-
-    /* ★★★ GLASS CARDS - Stay crisp and readable ★★★ */
-    .glass-card,
-    .hero-text-side,
-    .service-card,
-    .contact-container,
-    .gallery-item {
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(16px) saturate(1.4);
-      -webkit-backdrop-filter: blur(16px) saturate(1.4);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* Ensure all text stays sharp and readable */
-    .hero-text-side h1,
-    .hero-text-side p,
-    .hero-text-side .sub-tag,
-    .section-title,
-    .service-card h3,
-    .contact-item,
-    footer p,
-    nav a {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-    }
-
-    /* Optional: Subtle overlay for better contrast */
-    body::after {
+    /* overlay to make text readable */
+    body::before {
       content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(10,10,10,0.45);
       z-index: -1;
-      background: rgba(255, 255, 255, 0.05);
-      pointer-events: none;
-    }
-
-    /* ==========================================
-       HEADER & NAVIGATION
-    ========================================== */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 28px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(24px) saturate(1.4);
-      -webkit-backdrop-filter: blur(24px) saturate(1.4);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      flex-wrap: wrap;
-      gap: 10px;
-      transition: background 0.3s ease;
-    }
-
-    header .logo {
-      font-weight: 700;
-      font-size: var(--font-lg);
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: #111;
-      background: linear-gradient(135deg, #222 0%, #555 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    nav {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: #444;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: var(--font-sm);
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      padding: 10px 22px;
-      border-radius: 40px;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      background: transparent;
-      position: relative;
-      -webkit-user-select: none;
-      user-select: none;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    nav a::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 40px;
-      background: var(--gold);
-      opacity: 0;
-      transform: scale(0.92);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: -1;
-      box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25);
-    }
-
-    nav a:hover::before {
-      opacity: 0.15;
-      transform: scale(1);
-    }
-
-    /* ★★★ ACTIVE STATE - Only ONE link should have this ★★★ */
-    nav a.active {
-      color: #fff;
-      background: var(--gold);
-      box-shadow: 0 4px 16px rgba(229, 169, 59, 0.35);
-      transform: scale(1.02);
-    }
-
-    nav a.active::before {
-      opacity: 1;
-      transform: scale(1);
-      background: var(--gold);
-    }
-
-    nav a:active {
-      transform: scale(0.94);
-      transition-duration: 0.08s;
-    }
-
-    /* ==========================================
-       MOBILE HEADER
-    ========================================== */
-    @media (max-width: 768px) {
-      header {
-        padding: 10px 12px;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 4px 8px;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      header .logo {
-        font-size: 0.85rem;
-        letter-spacing: 1.5px;
-      }
-
-      nav {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 2px;
-        align-items: center;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-
-      nav::-webkit-scrollbar {
-        display: none;
-      }
-
-      nav a {
-        font-size: 0.6rem;
-        padding: 6px 10px;
-        letter-spacing: 0.5px;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-    }
-
-    @media (max-width: 400px) {
-      header .logo {
-        font-size: 0.7rem;
-        letter-spacing: 1px;
-      }
-
-      nav a {
-        font-size: 0.5rem;
-        padding: 4px 8px;
-        letter-spacing: 0.3px;
-      }
-
-      header {
-        padding: 6px 8px;
-        gap: 2px 4px;
-      }
-    }
-
-    /* ==========================================
-       HERO SECTION
-    ========================================== */
-    .hero-section {
-      display: flex;
-      align-items: center;
-      min-height: calc(100vh - 80px);
-      padding: 30px 24px;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .hero-image-container {
-      flex: 1 1 42%;
-      min-width: 260px;
-      max-width: 560px;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-image-container:hover {
-      transform: scale(1.01);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .hero-image-container img {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 4/5;
-      object-fit: contain;
-      max-height: 80vh;
-      display: block;
-      transition: transform 0.6s ease;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .hero-image-container:hover img {
-      transform: scale(1.03);
-    }
-
-    .hero-text-side {
-      flex: 1 1 42%;
-      min-width: 260px;
-      padding: 44px 40px;
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(20px) saturate(1.3);
-      -webkit-backdrop-filter: blur(20px) saturate(1.3);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .hero-text-side:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .hero-text-side .sub-tag {
-      font-size: var(--font-sm);
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .hero-text-side h1 {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      font-size: var(--font-xxl);
-      font-weight: 700;
-      line-height: 1.15;
-      color: #111;
-      margin-bottom: 16px;
-    }
-
-    .hero-text-side h1 span {
-      font-weight: 400;
-      font-style: italic;
-      color: #444;
-    }
-
-    .hero-text-side p {
-      font-size: var(--font-md);
-      line-height: 1.7;
-      color: #222;
-      max-width: 440px;
-      margin-bottom: 32px;
-      opacity: 0.85;
-    }
-
-    /* ==========================================
-       LIQUID BUTTON
-    ========================================== */
-    .liquid-btn-wrap {
-      position: relative;
-      display: inline-block;
-      border-radius: 50px;
-      overflow: hidden;
-      background: var(--gold);
-      border: none;
-      cursor: pointer;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 18px rgba(229, 169, 59, 0.25);
-    }
-
-    .liquid-btn-wrap:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 32px rgba(229, 169, 59, 0.35);
-    }
-
-    .liquid-btn-wrap:active {
-      transform: scale(0.94);
-      transition-duration: 0.08s;
-    }
-
-    .liquid-btn {
-      position: relative;
-      padding: 16px 44px;
-      background: transparent;
-      color: #fff;
-      font-family: -apple-system, 'Helvetica Neue', sans-serif;
-      font-size: var(--font-sm);
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      z-index: 5;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .liquid-bg {
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: #1a1a1a;
-      border-radius: 42%;
-      z-index: 2;
-      animation: spinLiquid 6s linear infinite;
-      opacity: 0.4;
-      mix-blend-mode: overlay;
-    }
-
-    @keyframes spinLiquid {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* ==========================================
-       SECTION TITLES
-    ========================================== */
-    .section-title {
-      font-family: 'Georgia', serif;
-      text-align: center;
-      font-size: var(--font-xl);
-      font-weight: 700;
-      margin-bottom: 52px;
-      position: relative;
-      color: #111;
-      letter-spacing: -0.3px;
-    }
-
-    .section-title::after {
-      content: '';
-      width: 50px;
-      height: 4px;
-      background: var(--gold);
-      position: absolute;
-      bottom: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 4px;
-    }
-
-    /* ==========================================
-       CONTAINER
-    ========================================== */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 70px 20px;
-    }
-
-    /* ==========================================
-       GALLERY
-    ========================================== */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 28px;
-    }
-
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      height: 370px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: var(--shadow-lg);
-      border-color: rgba(229, 169, 59, 0.25);
-    }
-
-    .gallery-item:active {
-      transform: scale(0.96);
-      transition-duration: 0.08s;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.06);
-    }
-
-    /* ==========================================
-       SERVICES
-    ========================================== */
-    .services-section {
-      padding: 70px 20px;
-      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
+    body.locked { overflow: hidden; }
+    ::selection { background: var(--color-ink); color: var(--color-page); }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 22px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    .serif { font-family: var(--font-display); font-weight: 400; }
+    .mono { font-family: var(--font-mono); letter-spacing: .12em; text-transform: uppercase; font-size: .68rem; }
 
-    .service-card {
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(16px) saturate(1.2);
-      -webkit-backdrop-filter: blur(16px) saturate(1.2);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 34px 18px;
-      border-radius: var(--radius-md);
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: default;
-    }
-
-    .service-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--gold);
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .service-card:active {
-      transform: scale(0.95);
-    }
-
-    .service-card div {
-      font-size: 2.8rem;
-      color: var(--gold);
-      margin-bottom: 8px;
-      transition: transform 0.3s ease;
-    }
-
-    .service-card:hover div {
-      transform: scale(1.1) rotate(-4deg);
-    }
-
-    .service-card h3 {
-      font-size: var(--font-md);
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #111;
-      letter-spacing: 0.8px;
-    }
-
-    /* ==========================================
-       CONTACT
-    ========================================== */
-    .contact-section {
-      padding: 80px 20px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .contact-container {
-      max-width: 560px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(20px) saturate(1.3);
-      -webkit-backdrop-filter: blur(20px) saturate(1.3);
-      padding: 38px 32px;
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.3s ease, box-shadow 0.4s ease;
-    }
-
-    .contact-container:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .contact-details {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .contact-item {
-      font-size: var(--font-md);
-      color: #222;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
-    }
-
-    .contact-item:last-child {
-      border-bottom: none;
-    }
-
-    .contact-item strong {
-      color: #111;
-      text-transform: uppercase;
-      font-size: var(--font-sm);
-      letter-spacing: 1px;
-      min-width: 90px;
-      opacity: 0.7;
-    }
-
-    .contact-item a {
-      color: var(--gold);
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.2s ease;
-      word-break: break-word;
-      font-size: var(--font-md);
-    }
-
-    .contact-item a:hover {
-      color: #000;
-    }
-
-    /* ==========================================
-       LIGHTBOX
-    ========================================== */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(28px) saturate(1.2);
-      -webkit-backdrop-filter: blur(28px) saturate(1.2);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; backdrop-filter: blur(0px); }
-      to { opacity: 1; backdrop-filter: blur(28px); }
-    }
-
-    .lightbox img {
-      max-width: 92%;
-      max-height: 85%;
-      object-fit: contain;
-      border-radius: var(--radius-md);
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transform: scale(0.95);
-      animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes zoomIn {
-      to { transform: scale(1); }
-    }
-
-    .close-box {
-      position: absolute;
-      top: 28px;
-      right: 32px;
-      color: #fff;
-      font-size: 44px;
+    /* ---------- Gooey liquid (from first) ---------- */
+    .goo { filter: url(#liquid-goo); }
+    .liquid-btn {
+      position: relative;
+      isolation: isolate;
+      border: none;
       cursor: pointer;
-      font-weight: 200;
-      transition: 0.3s ease;
-      line-height: 1;
-      opacity: 0.7;
-      background: rgba(0, 0, 0, 0.2);
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--color-page);
+      background: transparent;
+      padding: 1.15rem 2.6rem;
+      font: 500 .82rem/1 var(--font-body);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .liquid-btn .blobs {
+      position: absolute; inset: -14px; z-index: -1;
+      filter: url(#liquid-goo);
+      pointer-events: none;
+    }
+    .liquid-btn .blobs i {
+      position: absolute;
+      background: var(--color-ink);
+      border-radius: 999px;
+      transition: transform .55s cubic-bezier(.16,1,.3,1), width .55s, height .55s;
+    }
+    .liquid-btn .blobs i:nth-child(1) { inset: 14px; border-radius: 999px; }
+    .liquid-btn .blobs i:nth-child(2) { width: 46px; height: 46px; left: 12%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
+    .liquid-btn .blobs i:nth-child(3) { width: 52px; height: 52px; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
+    .liquid-btn .blobs i:nth-child(4) { width: 46px; height: 46px; left: 88%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
+    .liquid-btn:hover .blobs i:nth-child(2) { transform: translate(-50%,-50%) scale(1.5); }
+    .liquid-btn:hover .blobs i:nth-child(3) { transform: translate(-50%,-50%) scale(1.9); }
+    .liquid-btn:hover .blobs i:nth-child(4) { transform: translate(-50%,-50%) scale(1.5); }
+    .liquid-btn:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 6px; }
+
+    .ghost-btn {
+      border: 1px solid var(--color-line);
+      border-radius: 999px;
+      padding: .85rem 1.6rem;
+      background: var(--color-veil);
+      color: var(--color-ink);
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      transition: border-color .3s, transform .3s;
+    }
+    .ghost-btn:hover { border-color: var(--color-ink); transform: translateY(-2px); }
+
+    /* ---------- Header (glass from first) ---------- */
+    .glass {
+      background: color-mix(in srgb, var(--color-page) 62%, transparent);
+      backdrop-filter: blur(22px) saturate(150%);
+      border-bottom: 1px solid var(--color-line);
+    }
+    .burger i { display: block; width: 22px; height: 1.5px; background: var(--color-ink); transition: transform .45s cubic-bezier(.76,0,.24,1), opacity .3s; }
+    .burger i + i { margin-top: 6px; }
+    .burger.open i:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
+    .burger.open i:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
+
+    /* ---------- Hero ---------- */
+    .hero-line { display: block; overflow: hidden; }
+    .hero-line span { display: block; }
+
+    /* ---------- Grid (masonry from first) ---------- */
+    .masonry { columns: 1; column-gap: 1.15rem; }
+    @media (min-width: 700px) { .masonry { columns: 2; } }
+    @media (min-width: 1100px) { .masonry { columns: 3; } }
+    .tile {
+      break-inside: avoid;
+      margin-bottom: 1.15rem;
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0; border: 0; background: none; cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      color: inherit;
+      text-align: left;
+    }
+    .tile-media { position: relative; overflow: hidden; border-radius: 4px; background: var(--color-veil); }
+    .tile img, .tile video { width: 100%; display: block; transition: transform .9s cubic-bezier(.16,1,.3,1), filter .6s; will-change: transform; }
+    .tile video { position: absolute; inset: 0; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s; }
+    .tile.playing video { opacity: 1; }
+    .tile:hover img, .tile:focus-visible img { transform: scale(1.06); }
+    .tile-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0) 55%); opacity: 0; transition: opacity .5s; }
+    .tile:hover .tile-shade, .tile:focus-visible .tile-shade { opacity: 1; }
+    .tile-meta { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1rem; color: #f6f4f0; transform: translateY(12px); opacity: 0; transition: all .5s cubic-bezier(.16,1,.3,1); }
+    .tile:hover .tile-meta, .tile:focus-visible .tile-meta { transform: none; opacity: 1; }
+    .badge { position: absolute; top: 1rem; left: 1rem; display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .7rem; border-radius: 999px; background: rgba(10,10,10,.55); color: #f6f4f0; backdrop-filter: blur(8px); }
+
+    .tab { position: relative; padding: .6rem 1.2rem; border: 0; background: transparent; color: var(--color-soft); cursor: pointer; font: 500 .78rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; transition: color .3s; }
+    .tab[aria-selected="true"] { color: var(--color-page); }
+    .tab-track { position: relative; display: inline-flex; flex-wrap: wrap; gap: .2rem; padding: .3rem; border: 1px solid var(--color-line); border-radius: 999px; }
+    .tab-pill { position: absolute; z-index: -1; top: .3rem; left: 0; height: calc(100% - .6rem); border-radius: 999px; background: var(--color-ink); transition: transform .55s cubic-bezier(.16,1,.3,1), width .55s cubic-bezier(.16,1,.3,1); }
+
+    /* ---------- Overlay menu ---------- */
+    #overlay { position: fixed; inset: 0; z-index: 80; background: var(--color-page); clip-path: circle(0% at calc(100% - 46px) 46px); visibility: hidden; }
+    #overlay.open { visibility: visible; }
+    .overlay-link { font-family: var(--font-display); font-size: clamp(2.6rem, 9vw, 6rem); line-height: 1; display: inline-block; text-decoration: none; color: var(--color-ink); transition: opacity .3s, transform .5s cubic-bezier(.16,1,.3,1); }
+    .overlay-link:hover { opacity: .55; transform: translateX(16px); }
+
+    /* ---------- Lightbox ---------- */
+    #lightbox { position: fixed; inset: 0; z-index: 100; display: none; background: color-mix(in srgb, var(--color-page) 92%, transparent); backdrop-filter: blur(20px); }
+    #lightbox.open { display: grid; }
+    #lb-frame img, #lb-frame video { max-height: 68vh; width: auto; max-width: 100%; border-radius: 4px; display: block; margin: 0 auto; }
+    .spec { border-top: 1px solid var(--color-line); padding: .7rem 0; display: flex; justify-content: space-between; gap: 1rem; }
+
+    /* ---------- Ink drop ---------- */
+    #ink { position: fixed; z-index: 120; width: 10px; height: 10px; border-radius: 999px; pointer-events: none; transform: scale(0); opacity: 0; }
+
+    .reveal { opacity: 0; transform: translateY(34px); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      html { scroll-behavior: auto; }
     }
 
-    .close-box:hover {
-      opacity: 1;
-      transform: rotate(90deg) scale(1.05);
-      background: rgba(0, 0, 0, 0.4);
+    /* additional glass cards from second code */
+    .glass-card {
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,0.3);
     }
-
-    /* ==========================================
-       FOOTER
-    ========================================== */
-    footer {
-      text-align: center;
-      padding: 32px 20px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      font-size: var(--font-sm);
-      letter-spacing: 1.5px;
-      color: #222;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* ==========================================
-       RESPONSIVE
-    ========================================== */
-    @media (max-width: 768px) {
-      :root {
-        --font-base: 15px;
-        --font-sm: 0.8rem;
-        --font-md: 1rem;
-        --font-lg: 1.2rem;
-        --font-xl: 1.8rem;
-        --font-xxl: 2.4rem;
-      }
-
-      .hero-section {
-        flex-direction: column;
-        padding: 20px 14px;
-        min-height: auto;
-        gap: 24px;
-      }
-
-      .hero-image-container {
-        flex: 1 1 100%;
-        max-width: 100%;
-        border-radius: var(--radius-md);
-        max-height: 60vh;
-      }
-
-      .hero-image-container img {
-        max-height: 55vh;
-        aspect-ratio: 4/5;
-        object-fit: contain;
-      }
-
-      .hero-text-side {
-        flex: 1 1 100%;
-        padding: 28px 20px;
-        text-align: center;
-        border-radius: var(--radius-md);
-      }
-
-      .hero-text-side p {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 100%;
-      }
-
-      .gallery-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-
-      .gallery-item {
-        height: 240px;
-        border-radius: 14px;
-      }
-
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-      }
-
-      .service-card {
-        padding: 24px 12px;
-      }
-
-      .service-card div {
-        font-size: 2.2rem;
-      }
-
-      .service-card h3 {
-        font-size: var(--font-sm);
-      }
-
-      .contact-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 2px;
-      }
-
-      .contact-item strong {
-        min-width: auto;
-      }
-
-      .liquid-btn {
-        padding: 14px 32px;
-        font-size: var(--font-sm);
-      }
-
-      .close-box {
-        top: 16px;
-        right: 16px;
-        width: 48px;
-        height: 48px;
-        font-size: 32px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-
-      .gallery-item {
-        height: 280px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      .hero-text-side h1 {
-        font-size: var(--font-xl);
-      }
-
-      .section-title {
-        font-size: var(--font-lg);
-      }
-
-      .hero-image-container img {
-        max-height: 45vh;
-      }
-    }
-
-    /* ★★★ SCROLL-MARGIN FOR STICKY HEADER ★★★ */
-    #home,
-    #portfolio,
-    #services,
-    #contact {
-      scroll-margin-top: 80px;
-    }
+    /* fix for light mode text */
+    .light .hero-text-side h1, .light .hero-text-side p, .light .section-title { color: #111; }
+    .light .hero-text-side .sub-tag { color: var(--gold); }
   </style>
 </head>
 <body>
 
-  <!-- ==========================================
-       HEADER
-  ========================================== -->
-  <header>
-    <div class="logo">DISHANT MOTE</div>
-    <nav id="navbar">
-      <a href="#home" class="nav-link active">Home</a>
-      <a href="#portfolio" class="nav-link">Portfolio</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#contact" class="nav-link">Contacts</a>
+<!-- SVG filters -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <filter id="liquid-goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -11" result="goo" />
+      <feBlend in="SourceGraphic" in2="goo" />
+    </filter>
+  </defs>
+</svg>
+
+<div id="ink"></div>
+
+<!-- Header (first code style) -->
+<header class="glass fixed top-0 left-0 right-0 z-[90]">
+  <div class="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
+    <a href="#top" class="flex items-center gap-3 no-underline text-[color:var(--color-ink)]">
+      <span class="serif text-2xl leading-none">DM</span>
+      <span class="mono hidden leading-[1.35] text-[color:var(--color-soft)] sm:block">Dishant<br />Mote</span>
+    </a>
+    <nav class="hidden items-center gap-9 md:flex" aria-label="Primary">
+      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#top">Home</a>
+      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#work">Portfolio</a>
+      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#services">Services</a>
+      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#contact">Contact</a>
     </nav>
-  </header>
-
-  <!-- ==========================================
-       HERO SECTION
-  ========================================== -->
-  <section id="home" class="hero-section">
-    <div class="hero-image-container">
-      <img src="dishant.jpg" alt="Dishant Mote Portfolio" />
-    </div>
-    <div class="hero-text-side">
-      <p class="sub-tag">I'm Dishant Mote</p>
-      <h1>Photographer<br /><span>&amp; Visual Artist</span></h1>
-      <p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
-      <div class="liquid-btn-wrap" onclick="document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });">
-        <div class="liquid-bg"></div>
-        <button class="liquid-btn">View Portfolio</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================
-       PORTFOLIO
-  ========================================== -->
-  <div class="container" id="portfolio">
-    <h2 class="section-title">Portfolio</h2>
-    <div class="gallery-grid">
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1" /></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2" /></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3" /></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4" /></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5" /></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6" /></div>
+    <div class="flex items-center gap-2">
+      <button id="theme-toggle" class="ghost-btn !px-3 !py-3" aria-label="Switch theme" title="Switch theme">
+        <i data-lucide="sun" class="h-4 w-4" id="theme-icon"></i>
+      </button>
+      <button id="menu-toggle" class="ghost-btn burger !px-3 !py-3" aria-expanded="false" aria-controls="overlay" aria-label="Open menu">
+        <i></i><i></i>
+      </button>
     </div>
   </div>
+</header>
 
-  <!-- ==========================================
-       SERVICES
-  ========================================== -->
-  <section id="services" class="services-section">
-    <h2 class="section-title">My Services</h2>
-    <div class="services-grid">
-      <div class="service-card"><div>📷</div><h3>Photography</h3></div>
-      <div class="service-card"><div>📹</div><h3>Videography</h3></div>
-      <div class="service-card"><div>🎬</div><h3>Cinematic Reels</h3></div>
-      <div class="service-card"><div>✨</div><h3>Candid Shoot</h3></div>
-      <div class="service-card"><div>🧸</div><h3>Baby Shoot</h3></div>
-      <div class="service-card"><div>🤰</div><h3>Maternity Shoot</h3></div>
-      <div class="service-card"><div>💍</div><h3>Pre-Wedding</h3></div>
+<!-- Overlay menu -->
+<div id="overlay" role="dialog" aria-modal="true" aria-label="Site menu">
+  <div class="mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 md:px-10">
+    <p class="mono mb-8 text-[color:var(--color-soft)]">Menu / Dishant Mote Studio</p>
+    <nav class="flex flex-col gap-2" aria-label="Overlay">
+      <a class="overlay-link" href="#top" data-close>Home</a>
+      <a class="overlay-link" href="#work" data-close>Portfolio</a>
+      <a class="overlay-link" href="#services" data-close>Services</a>
+      <a class="overlay-link" href="#contact" data-close>Contact</a>
+    </nav>
+    <div class="mono mt-12 flex flex-wrap gap-x-10 gap-y-2 text-[color:var(--color-soft)]">
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="https://www.instagram.com/dishant_mote_photography" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="tel:+919309405055">+91 93094 05055</a>
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<main id="top">
+  <!-- Hero (first code style, but with local dishant.jpg) -->
+  <section class="relative mx-auto flex min-h-[100svh] max-w-[1500px] flex-col justify-end px-5 pb-14 pt-32 md:px-10 md:pb-20">
+    <div class="mono mb-8 flex justify-between text-[color:var(--color-soft)]">
+      <span>I'm Dishant Mote</span><span>India · Worldwide</span>
+    </div>
+    <h1 class="serif m-0 text-[clamp(3rem,13vw,11rem)] leading-[0.88] tracking-[-0.02em]">
+      <span class="hero-line"><span class="hero-anim">Photographer</span></span>
+      <span class="hero-line"><span class="hero-anim">&amp; Visual</span></span>
+      <span class="hero-line"><span class="hero-anim italic text-[color:var(--color-soft)]">Artist.</span></span>
+    </h1>
+    <div class="mt-12 flex flex-col items-start gap-8 border-t border-[color:var(--color-line)] pt-8 md:flex-row md:items-center md:justify-between">
+      <p class="m-0 max-w-md text-[0.98rem] leading-relaxed text-[color:var(--color-soft)]">
+        Based in India, I specialise in professional portraits, high-end commercial editorial layouts and outdoor lifestyle photography campaigns.
+      </p>
+      <a href="#work" class="liquid-btn" aria-label="View portfolio">
+        <span class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="relative">View Portfolio</span>
+      </a>
     </div>
   </section>
 
-  <!-- ==========================================
-       CONTACT
-  ========================================== -->
-  <section id="contact" class="contact-section">
-    <h2 class="section-title">Contact Me</h2>
-    <div class="contact-container">
-      <div class="contact-details">
-        <div class="contact-item"><strong>Name</strong> Dishant Mote</div>
-        <div class="contact-item"><strong>Instagram</strong> <a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
-        <div class="contact-item"><strong>Contact</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
-        <div class="contact-item"><strong>Email</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
+  <!-- Portfolio (masonry grid from first, but using local 1.jpg ... 6.jpg) -->
+  <section id="work" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
+    <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
+      <div>
+        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">Selected work / 2024—26</p>
+        <h2 class="serif m-0 text-[clamp(2.4rem,6vw,4.5rem)] leading-none">Portfolio</h2>
+      </div>
+      <div class="tab-track goo-host" role="tablist" aria-label="Filter portfolio">
+        <span class="tab-pill" aria-hidden="true"></span>
+        <button class="tab" role="tab" aria-selected="true" data-filter="all">All</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="stills">Stills</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="motion">Motion Reels</button>
       </div>
     </div>
+    <div id="grid" class="masonry"></div>
   </section>
 
-  <!-- ==========================================
-       LIGHTBOX
-  ========================================== -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="close-box">×</span>
-    <img id="lightbox-img" src="" alt="Popup" />
+  <!-- Services (from first code) -->
+  <section id="services" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
+    <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
+      <div>
+        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">What I offer</p>
+        <h2 class="serif m-0 text-[clamp(2.4rem,6vw,4.5rem)] leading-none">My Services</h2>
+      </div>
+      <span class="mono text-[color:var(--color-soft)]">07</span>
+    </div>
+    <ul id="services-grid" class="grid list-none grid-cols-1 gap-px overflow-hidden rounded border border-[color:var(--color-line)] bg-[color:var(--color-line)] p-0 sm:grid-cols-2 lg:grid-cols-4"></ul>
+  </section>
+
+  <!-- Contact (first code) -->
+  <section id="contact" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
+    <div class="reveal grid gap-12 lg:grid-cols-[1fr_1fr]">
+      <div>
+        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">Contact / 01</p>
+        <h2 class="serif m-0 text-[clamp(2.6rem,8vw,6rem)] leading-[0.92]">Let's make<br />something.</h2>
+        <a href="mailto:motedishant93@gmail.com" class="liquid-btn mt-10 inline-block no-underline">
+          <span class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="relative">Start a conversation</span>
+        </a>
+      </div>
+      <dl class="m-0 self-end">
+        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Name</dt><dd class="m-0">Dishant Mote</dd></div>
+        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Instagram</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/dishant_mote_photography">@dishant_mote_photography</a></dd></div>
+        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Contact</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" href="tel:+919309405055">+91 9309405055</a></dd></div>
+        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Email</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-[color:var(--color-line)]">
+  <div class="mx-auto flex max-w-[1500px] flex-col gap-6 px-5 py-10 md:flex-row md:items-center md:justify-between md:px-10">
+    <div class="flex items-center gap-3">
+      <span class="serif text-2xl leading-none">DM</span>
+      <span class="mono leading-[1.35] text-[color:var(--color-soft)]">Dishant<br />Mote</span>
+    </div>
+    <p class="mono m-0 text-[color:var(--color-soft)]">© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p>
+    <div class="mono flex gap-6">
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="https://www.instagram.com/dishant_mote_photography" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="tel:+919309405055">Call</a>
+      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="#top">Back to top ↑</a>
+    </div>
   </div>
+</footer>
 
-  <!-- ==========================================
-       FOOTER
-  ========================================== -->
-  <footer>
-    <p>© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p>
-  </footer>
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="mx-auto flex h-full w-full max-w-[1500px] flex-col px-5 py-6 md:px-10 md:py-8">
+    <div class="flex items-center justify-between">
+      <span class="mono text-[color:var(--color-soft)]">DM / Archive</span>
+      <div class="flex gap-2">
+        <button id="lb-share" class="ghost-btn !px-3 !py-3" aria-label="Share this project"><i data-lucide="share-2" class="h-4 w-4"></i></button>
+        <button id="lb-close" class="ghost-btn !px-3 !py-3" aria-label="Close viewer"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+    </div>
+    <div id="lb-frame" class="flex min-h-0 flex-1 items-center justify-center py-6"></div>
+    <div class="grid gap-8 border-t border-[color:var(--color-line)] pt-6 lg:grid-cols-[1fr_1.1fr]">
+      <div>
+        <p id="lb-kicker" class="mono m-0 mb-2 text-[color:var(--color-soft)]"></p>
+        <h2 id="lb-title" class="serif m-0 text-[clamp(1.8rem,4vw,3rem)] leading-none"></h2>
+      </div>
+      <dl id="lb-specs" class="m-0 grid gap-x-10 sm:grid-cols-2"></dl>
+    </div>
+    <div class="mt-6 flex items-center justify-between">
+      <button id="lb-prev" class="ghost-btn !px-3 !py-3" aria-label="Previous project"><i data-lucide="arrow-left" class="h-4 w-4"></i></button>
+      <span id="lb-count" class="mono text-[color:var(--color-soft)]"></span>
+      <button id="lb-next" class="ghost-btn !px-3 !py-3" aria-label="Next project"><i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+    </div>
+  </div>
+</div>
 
-  <!-- ==========================================
-       JAVASCRIPT - PERFECT NAVIGATION SYSTEM
-       Fixes: Home button stuck, proper section tracking
-  ========================================== -->
-  <script>
-    (function() {
-      'use strict';
+<script>
+(function () {
+  "use strict";
 
-      // ==========================================
-      // 1. GET ELEMENTS
-      // ==========================================
-      const navLinks = document.querySelectorAll('.nav-link');
-      const sections = document.querySelectorAll('#home, #portfolio, #services, #contact');
-      
-      // Section ID to nav link mapping
-      const linkMap = {};
-      navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          linkMap[href.substring(1)] = link;
-        }
+  /* ---------------------------------------------------------------
+     DATA – local images from second code (1.jpg … 6.jpg)
+  --------------------------------------------------------------- */
+  var WORKS = [
+    { id:"img1", type:"stills", title:"Nocturne I", location:"Vík, Iceland", year:"2026",
+      img:"1.jpg", alt:"Photo 1",
+      camera:"Leica SL3", lens:"50mm Summilux", iso:"ISO 200", aperture:"ƒ/2.8", shutter:"1/800s" },
+    { id:"img2", type:"stills", title:"Monument", location:"Osaka, Japan", year:"2025",
+      img:"2.jpg", alt:"Photo 2",
+      camera:"Hasselblad X2D", lens:"38mm XCD", iso:"ISO 100", aperture:"ƒ/8", shutter:"1/125s" },
+    { id:"img3", type:"stills", title:"Undertow", location:"North Shore, Oʻahu", year:"2026",
+      img:"3.jpg", alt:"Photo 3",
+      camera:"RED V-Raptor", lens:"24mm Signature Prime", iso:"ISO 800", aperture:"T2.8", shutter:"1/1000s" },
+    { id:"img4", type:"stills", title:"Vesper", location:"London, England", year:"2026",
+      img:"4.jpg", alt:"Photo 4",
+      camera:"Phase One XF", lens:"80mm Schneider", iso:"ISO 50", aperture:"ƒ/5.6", shutter:"1/160s" },
+    { id:"img5", type:"stills", title:"After Rain", location:"Tokyo, Japan", year:"2025",
+      img:"5.jpg", alt:"Photo 5",
+      camera:"Sony A1 II", lens:"35mm GM", iso:"ISO 3200", aperture:"ƒ/1.4", shutter:"1/250s" },
+    { id:"img6", type:"stills", title:"Trace", location:"Makgadikgadi, Botswana", year:"2024",
+      img:"6.jpg", alt:"Photo 6",
+      camera:"DJI Mavic 3 Pro", lens:"24mm Hasselblad", iso:"ISO 100", aperture:"ƒ/5.6", shutter:"1/500s" }
+  ];
+
+  var SERVICES = [
+    { icon:"camera", label:"Photography", blurb:"Portraits, editorial and commercial stills shot with a cinematic eye." },
+    { icon:"video", label:"Videography", blurb:"Full-service film coverage for brands, events and personal stories." },
+    { icon:"clapperboard", label:"Cinematic Reels", blurb:"Short-form vertical films crafted for social reach and impact." },
+    { icon:"sparkles", label:"Candid Shoot", blurb:"Unposed, in-the-moment frames that keep the day feeling real." },
+    { icon:"baby", label:"Baby Shoot", blurb:"Gentle, safe newborn and toddler sessions in soft natural light." },
+    { icon:"heart-pulse", label:"Maternity Shoot", blurb:"Elegant maternity portraits, in studio or on location outdoors." },
+    { icon:"gem", label:"Pre-Wedding", blurb:"Story-led pre-wedding shoots across scenic Indian locations." },
+    { icon:"mail", label:"Custom Brief", blurb:"Have something else in mind? Tell me the idea and we'll shape it." }
+  ];
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  /* ---------------------------------------------------------------
+     RENDER GRID (local images)
+  --------------------------------------------------------------- */
+  var grid = $("#grid");
+  var current = "all";
+
+  function tileHTML(work, index) {
+    var isMotion = work.type === "motion";
+    return '' +
+      '<button class="tile" data-index="' + index + '" data-type="' + work.type + '" ' +
+        'data-title="' + work.title + '" data-location="' + work.location + '" data-year="' + work.year + '" ' +
+        'data-camera="' + work.camera + '" data-lens="' + work.lens + '" data-iso="' + work.iso + '" ' +
+        'data-aperture="' + work.aperture + '" data-shutter="' + work.shutter + '" ' +
+        'aria-label="Open ' + work.title + ', ' + work.location + '">' +
+        '<span class="tile-media block">' +
+          '<img src="' + work.img + '" alt="' + work.alt + '" loading="' + (index < 3 ? "eager" : "lazy") + '" decoding="async" />' +
+          (isMotion ? '<video src="' + work.video + '" poster="' + work.img + '" muted loop playsinline preload="none"></video>' : '') +
+          '<span class="tile-shade"></span>' +
+          (isMotion ? '<span class="badge mono"><i data-lucide="play" class="h-3 w-3"></i>Reel</span>' : '') +
+          '<span class="tile-meta">' +
+            '<span class="serif block text-2xl leading-none">' + work.title + '</span>' +
+            '<span class="mono mt-2 flex justify-between opacity-80"><span>' + work.location + '</span><span>' + work.year + '</span></span>' +
+          '</span>' +
+        '</span>' +
+      '</button>';
+  }
+
+  function renderGrid(filter) {
+    current = filter;
+    var html = "";
+    WORKS.forEach(function (w, i) {
+      if (filter === "all" || w.type === filter) html += tileHTML(w, i);
+    });
+    grid.innerHTML = html;
+    if (window.lucide) window.lucide.createIcons();
+    bindTiles();
+    if (window.gsap && !reduceMotion) {
+      gsap.fromTo($$(".tile", grid), { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: .6, stagger: .05, ease: "power3.out", clearProps: "transform" });
+    }
+  }
+
+  function bindTiles() {
+    $$(".tile", grid).forEach(function (tile) {
+      var video = $("video", tile);
+      if (video) {
+        var play = function () {
+          tile.classList.add("playing");
+          video.play().catch(function () { tile.classList.remove("playing"); });
+        };
+        var stop = function () {
+          tile.classList.remove("playing");
+          video.pause();
+          video.currentTime = 0;
+        };
+        tile.addEventListener("pointerenter", play);
+        tile.addEventListener("pointerleave", stop);
+        tile.addEventListener("focus", play);
+        tile.addEventListener("blur", stop);
+      }
+      tile.addEventListener("click", function () { openLightbox(parseInt(tile.dataset.index, 10)); });
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     TABS + GOOEY PILL
+  --------------------------------------------------------------- */
+  var tabs = $$(".tab");
+  var pill = $(".tab-pill");
+
+  function movePill(tab) {
+    pill.style.width = tab.offsetWidth + "px";
+    pill.style.transform = "translateX(" + tab.offsetLeft + "px)";
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t === tab)); });
+      movePill(tab);
+      renderGrid(tab.dataset.filter);
+    });
+  });
+  window.addEventListener("resize", function () {
+    var active = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0];
+    if (active) movePill(active);
+  });
+
+  /* ---------------------------------------------------------------
+     SERVICES
+  --------------------------------------------------------------- */
+  $("#services-grid").innerHTML = SERVICES.map(function (s) {
+    return '<li class="bg-[color:var(--color-page)] p-7 transition-colors hover:bg-[color:var(--color-veil)]">' +
+      '<i data-lucide="' + s.icon + '" class="h-6 w-6 text-[color:var(--color-ink)]"></i>' +
+      '<h3 class="serif mt-5 mb-2 text-2xl leading-none">' + s.label + '</h3>' +
+      '<p class="m-0 text-sm leading-relaxed text-[color:var(--color-soft)]">' + s.blurb + '</p>' +
+    '</li>';
+  }).join("");
+
+  /* ---------------------------------------------------------------
+     LIGHTBOX
+  --------------------------------------------------------------- */
+  var lb = $("#lightbox");
+  var lbFrame = $("#lb-frame");
+  var lbIndex = 0;
+
+  function openLightbox(index) {
+    lbIndex = index;
+    var w = WORKS[index];
+    lbFrame.innerHTML = w.type === "motion"
+      ? '<video src="' + w.video + '" poster="' + w.img + '" controls autoplay muted loop playsinline></video>'
+      : '<img src="' + w.img + '" alt="' + w.alt + '" />';
+    $("#lb-kicker").textContent = (w.type === "motion" ? "Motion Reel" : "Still") + " · " + w.location;
+    $("#lb-title").textContent = w.title;
+    $("#lb-specs").innerHTML = [
+      ["Camera", w.camera], ["Lens", w.lens], ["ISO", w.iso],
+      ["Aperture", w.aperture], ["Shutter Speed", w.shutter], ["Year", w.year]
+    ].map(function (row) {
+      return '<div class="spec"><dt class="mono text-[color:var(--color-soft)]">' + row[0] + '</dt><dd class="m-0">' + row[1] + '</dd></div>';
+    }).join("");
+    $("#lb-count").textContent = String(index + 1).padStart(2, "0") + " / " + String(WORKS.length).padStart(2, "0");
+
+    lb.classList.add("open");
+    document.body.classList.add("locked");
+    if (window.lucide) window.lucide.createIcons();
+    if (window.gsap && !reduceMotion) {
+      gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .35, ease: "power2.out" });
+      gsap.fromTo(lbFrame.firstElementChild, { scale: .88, opacity: 0 }, { scale: 1, opacity: 1, duration: .7, ease: "power3.out" });
+    }
+    $("#lb-close").focus();
+  }
+
+  function closeLightbox() {
+    var finish = function () {
+      lb.classList.remove("open");
+      lbFrame.innerHTML = "";
+      document.body.classList.remove("locked");
+    };
+    if (window.gsap && !reduceMotion) gsap.to(lb, { opacity: 0, duration: .28, onComplete: finish });
+    else finish();
+  }
+
+  function stepLightbox(dir) {
+    openLightbox((lbIndex + dir + WORKS.length) % WORKS.length);
+  }
+
+  $("#lb-close").addEventListener("click", closeLightbox);
+  $("#lb-prev").addEventListener("click", function () { stepLightbox(-1); });
+  $("#lb-next").addEventListener("click", function () { stepLightbox(1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
+  $("#lb-share").addEventListener("click", function () {
+    var w = WORKS[lbIndex];
+    var data = { title: w.title, text: w.title + " — " + w.location + " by Dishant Mote", url: location.href };
+    if (navigator.share) navigator.share(data).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(location.href);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (lb.classList.contains("open")) {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") stepLightbox(1);
+      if (e.key === "ArrowLeft") stepLightbox(-1);
+    } else if (e.key === "Escape" && overlay.classList.contains("open")) {
+      toggleMenu(false);
+    }
+  });
+
+  /* touch swipe */
+  var touchX = null;
+  lb.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    if (touchX === null) return;
+    var dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 55) stepLightbox(dx > 0 ? 1 : -1);
+    touchX = null;
+  }, { passive: true });
+
+  /* ---------------------------------------------------------------
+     OVERLAY MENU
+  --------------------------------------------------------------- */
+  var overlay = $("#overlay");
+  var menuBtn = $("#menu-toggle");
+
+  function toggleMenu(open) {
+    menuBtn.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.classList.toggle("locked", open);
+    if (open) overlay.classList.add("open");
+
+    if (window.gsap && !reduceMotion) {
+      gsap.to(overlay, {
+        clipPath: open ? "circle(150% at calc(100% - 46px) 46px)" : "circle(0% at calc(100% - 46px) 46px)",
+        duration: .8, ease: "power4.inOut",
+        onComplete: function () { if (!open) overlay.classList.remove("open"); }
       });
-
-      // ==========================================
-      // 2. ACTIVE STATE HELPERS
-      // ==========================================
-      function removeAllActive() {
-        navLinks.forEach(link => link.classList.remove('active'));
+      if (open) {
+        gsap.fromTo($$(".overlay-link"), { y: 60, opacity: 0 },
+          { y: 0, opacity: 1, duration: .7, stagger: .07, ease: "power3.out", delay: .2 });
       }
+    } else {
+      overlay.style.clipPath = open ? "circle(150% at 50% 50%)" : "circle(0% at 100% 0%)";
+      if (!open) overlay.classList.remove("open");
+    }
+  }
 
-      function setActiveLink(sectionId) {
-        removeAllActive();
-        if (sectionId && linkMap[sectionId]) {
-          linkMap[sectionId].classList.add('active');
-        }
-      }
+  menuBtn.addEventListener("click", function () { toggleMenu(!menuBtn.classList.contains("open")); });
+  $$("[data-close]").forEach(function (a) { a.addEventListener("click", function () { toggleMenu(false); }); });
 
-      // ==========================================
-      // 3. CHECK IF AT BOTTOM OF PAGE
-      // ==========================================
-      function isAtBottom() {
-        const scrollY = window.scrollY || window.pageYOffset;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        // If we're within 50px of the bottom
-        return (scrollY + windowHeight >= documentHeight - 50);
-      }
+  /* ---------------------------------------------------------------
+     LIQUID INK THEME SWITCHER
+  --------------------------------------------------------------- */
+  var ink = $("#ink");
+  var themeBtn = $("#theme-toggle");
+  var root = document.documentElement;
+  var themeTween = null;
+  var themeSafety = null;
 
-      // ==========================================
-      // 4. UPDATE ACTIVE SECTION (with bottom detection)
-      // ==========================================
-      function updateActiveSection() {
-        // ★★★ BUG FIX: If at bottom, force CONTACTS active ★★★
-        if (isAtBottom()) {
-          setActiveLink('contact');
-          return;
-        }
+  function paintIcon() {
+    $("#theme-icon").setAttribute("data-lucide", root.classList.contains("light") ? "moon" : "sun");
+    if (window.lucide) window.lucide.createIcons();
+  }
 
-        // Otherwise, find the most visible section
-        let bestSection = null;
-        let bestScore = 0;
+  function applyTheme(light) {
+    root.classList.toggle("light", light);
+    root.classList.toggle("dark", !light);
+    try { localStorage.setItem("dm-theme", light ? "light" : "dark"); } catch (err) {}
+    paintIcon();
+  }
 
-        sections.forEach(sec => {
-          const rect = sec.getBoundingClientRect();
-          const viewportHeight = window.innerHeight;
-          
-          // Calculate how much of the section is visible in the viewport
-          const visibleTop = Math.max(0, rect.top);
-          const visibleBottom = Math.min(viewportHeight, rect.bottom);
-          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-          const ratio = visibleHeight / rect.height;
-          
-          // Also consider sections that are in the center of viewport
-          const centerY = viewportHeight / 2;
-          const sectionCenter = (rect.top + rect.bottom) / 2;
-          const distanceFromCenter = Math.abs(sectionCenter - centerY);
-          const centerWeight = Math.max(0, 1 - (distanceFromCenter / viewportHeight));
-          
-          // Combined score: visibility ratio + center proximity bonus
-          const score = ratio + (centerWeight * 0.3);
-          
-          if (score > bestScore) {
-            bestScore = score;
-            bestSection = sec;
-          }
-        });
+  themeBtn.addEventListener("click", function () {
+    var goingLight = !root.classList.contains("light");
+    var rect = themeBtn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var radius = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy));
 
-        // If we found a section with visibility, update nav
-        if (bestSection) {
-          const sectionId = bestSection.getAttribute('id');
-          setActiveLink(sectionId);
-        } else {
-          // Fallback: if no section is visible, check which one is closest
-          let closestSection = null;
-          let closestDistance = Infinity;
-          const viewportCenter = window.innerHeight / 2;
-          
-          sections.forEach(sec => {
-            const rect = sec.getBoundingClientRect();
-            const sectionCenter = (rect.top + rect.bottom) / 2;
-            const distance = Math.abs(sectionCenter - viewportCenter);
-            
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestSection = sec;
-            }
+    if (!window.gsap || reduceMotion) { applyTheme(goingLight); return; }
+
+    ink.style.background = goingLight ? "#f5f5f3" : "#0a0a0a";
+    ink.style.left = (cx - 5) + "px";
+    ink.style.top = (cy - 5) + "px";
+
+    if (themeTween) themeTween.kill();
+    clearTimeout(themeSafety);
+
+    gsap.set(ink, { scale: 0, opacity: 1 });
+    themeTween = gsap.timeline({ onComplete: function () { gsap.set(ink, { opacity: 0, scale: 0 }); } })
+      .to(ink, { scale: (radius / 5) * 1.08, duration: .85, ease: "power2.inOut" })
+      .add(function () { applyTheme(goingLight); }, "-=0.30")
+      .to(ink, { opacity: 0, duration: .35, ease: "power1.out" });
+
+    themeSafety = setTimeout(function () {
+      applyTheme(goingLight);
+      if (themeTween) themeTween.kill();
+      gsap.set(ink, { opacity: 0, scale: 0 });
+    }, 1600);
+  });
+
+  /* ---------------------------------------------------------------
+     INTRO + SCROLL REVEALS
+  --------------------------------------------------------------- */
+  function boot() {
+    try {
+      var saved = localStorage.getItem("dm-theme");
+      if (saved === "light") root.classList.add("light"), root.classList.remove("dark");
+    } catch (err) {}
+    paintIcon();
+
+    renderGrid("all");
+    movePill(tabs[0]);
+
+    if (window.lucide) window.lucide.createIcons();
+
+    if (window.gsap && !reduceMotion) {
+      gsap.fromTo(".hero-anim", { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .1, ease: "power4.out" });
+      if (window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+        $$(".reveal").forEach(function (el) {
+          gsap.to(el, {
+            opacity: 1, y: 0, duration: .8, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 88%" }
           });
-          
-          if (closestSection) {
-            const sectionId = closestSection.getAttribute('id');
-            setActiveLink(sectionId);
-          }
-        }
-      }
-
-      // ==========================================
-      // 5. INTERSECTION OBSERVER (Primary detection)
-      // ==========================================
-      const observer = new IntersectionObserver((entries) => {
-        // Only update if we're not at bottom (handled by scroll listener)
-        if (!isAtBottom()) {
-          updateActiveSection();
-        }
-      }, {
-        threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-        rootMargin: '0px 0px -80px 0px'
-      });
-
-      sections.forEach(sec => observer.observe(sec));
-
-      // ==========================================
-      // 6. SCROLL LISTENER (with bottom detection)
-      // ==========================================
-      let scrollTimeout;
-
-      function handleScroll() {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          updateActiveSection();
-        }, 50);
-      }
-
-      window.addEventListener('scroll', handleScroll, { passive: true });
-
-      // ==========================================
-      // 7. CLICK HANDLER (manual override for clicks)
-      // ==========================================
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          const targetId = this.getAttribute('href');
-          if (targetId && targetId.startsWith('#')) {
-            // Immediately update active state
-            removeAllActive();
-            this.classList.add('active');
-          }
         });
-      });
-
-      // ==========================================
-      // 8. INITIAL SETUP ON PAGE LOAD
-      // ==========================================
-      function initialize() {
-        // Check initial hash
-        const hash = window.location.hash || '#home';
-        const targetElement = document.querySelector(hash);
-        
-        if (targetElement) {
-          setActiveLink(hash.replace('#', ''));
-        } else {
-          // Default to home
-          setActiveLink('home');
-        }
-
-        // Update after layout settles
-        setTimeout(updateActiveSection, 150);
+      } else {
+        gsap.set(".reveal", { opacity: 1, y: 0 });
       }
+    } else {
+      $$(".reveal").forEach(function (el) { el.style.opacity = 1; el.style.transform = "none"; });
+    }
+  }
 
-      window.addEventListener('load', function() {
-        setTimeout(initialize, 100);
-      });
-
-      // Also run if DOM is already loaded
-      if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(initialize, 100);
-      }
-
-      // ==========================================
-      // 9. RESIZE HANDLER (recalculate on resize)
-      // ==========================================
-      let resizeTimer;
-      window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(updateActiveSection, 200);
-      });
-
-      // ==========================================
-      // 10. LIGHTBOX
-      // ==========================================
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-
-      window.openLightbox = function(el) {
-        const img = el.querySelector('img');
-        if (img) {
-          lightboxImg.src = img.src;
-          lightbox.style.display = 'flex';
-          document.body.style.overflow = 'hidden';
-        }
-      };
-
-      window.closeLightbox = function() {
-        lightbox.style.display = 'none';
-        lightboxImg.src = '';
-        document.body.style.overflow = 'auto';
-      };
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
-      });
-
-      // ==========================================
-      // 11. PREVENT DOUBLE TAP ZOOM (iOS)
-      // ==========================================
-      document.addEventListener('touchend', function(e) {
-        const now = Date.now();
-        if (now - (document.lastTouch || 0) < 300) {
-          e.preventDefault();
-        }
-        document.lastTouch = now;
-      }, { passive: false });
-
-      console.log('✅ Navigation Active State System Active');
-      console.log('   - Bottom detection: Contacts highlighted at page end');
-      console.log('   - Real-time section tracking with IntersectionObserver');
-      console.log('   - Center proximity scoring for accurate detection');
-
-    })();
-  </script>
-
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+</script>
 </body>
 </html>
