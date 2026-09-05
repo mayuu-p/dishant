@@ -1,719 +1,477 @@
+
+
+
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dishant Mote — Photographer &amp; Visual Artist</title>
-  <meta name="description" content="Luxury photography and film portfolio of Dishant Mote: portraits, editorial, cinematic reels, candid, maternity and pre-wedding work." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <style>
-    /* ---------- Design tokens ---------- */
-    :root {
-      --color-page: #0a0a0a;
-      --color-ink: #f2f0ec;
-      --color-soft: #9a978f;
-      --color-line: rgba(242,240,236,0.14);
-      --color-veil: rgba(255,255,255,0.05);
-      --font-display: "Instrument Serif", Georgia, serif;
-      --font-body: "Manrope", system-ui, sans-serif;
-      --font-mono: "DM Mono", ui-monospace, monospace;
-    }
-    :root.light {
-      --color-page: #f5f5f3;
-      --color-ink: #14130f;
-      --color-soft: #6c6a63;
-      --color-line: rgba(20,19,15,0.14);
-      --color-veil: rgba(20,19,15,0.04);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--color-page);
-      color: var(--color-ink);
-      font-family: var(--font-body);
-      overflow-x: hidden;
-      transition: background 260ms linear, color 260ms linear;
-    }
-    body.locked { overflow: hidden; }
-    ::selection { background: var(--color-ink); color: var(--color-page); }
-
-    .serif { font-family: var(--font-display); font-weight: 400; }
-    .mono { font-family: var(--font-mono); letter-spacing: .12em; text-transform: uppercase; font-size: .68rem; }
-
-    /* ---------- Gooey liquid ---------- */
-    .liquid-btn {
-      position: relative;
-      isolation: isolate;
-      border: none;
-      cursor: pointer;
-      color: var(--color-page);
-      background: transparent;
-      padding: 1.15rem 2.6rem;
-      font: 500 .82rem/1 var(--font-body);
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-    .liquid-btn .blobs {
-      position: absolute; inset: -14px; z-index: -1;
-      filter: url(#liquid-goo);
-      pointer-events: none;
-    }
-    .liquid-btn .blobs i {
-      position: absolute;
-      background: var(--color-ink);
-      border-radius: 999px;
-      transition: transform .55s cubic-bezier(.16,1,.3,1), width .55s, height .55s;
-    }
-    .liquid-btn .blobs i:nth-child(1) { inset: 14px; border-radius: 999px; }
-    .liquid-btn .blobs i:nth-child(2) { width: 46px; height: 46px; left: 12%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
-    .liquid-btn .blobs i:nth-child(3) { width: 52px; height: 52px; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
-    .liquid-btn .blobs i:nth-child(4) { width: 46px; height: 46px; left: 88%; top: 50%; transform: translate(-50%,-50%) scale(.2); }
-    .liquid-btn:hover .blobs i:nth-child(2) { transform: translate(-50%,-50%) scale(1.5); }
-    .liquid-btn:hover .blobs i:nth-child(3) { transform: translate(-50%,-50%) scale(1.9); }
-    .liquid-btn:hover .blobs i:nth-child(4) { transform: translate(-50%,-50%) scale(1.5); }
-    .liquid-btn:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 6px; }
-
-    .ghost-btn {
-      border: 1px solid var(--color-line);
-      border-radius: 999px;
-      padding: .85rem 1.6rem;
-      background: var(--color-veil);
-      color: var(--color-ink);
-      backdrop-filter: blur(14px);
-      cursor: pointer;
-      transition: border-color .3s, transform .3s;
-    }
-    .ghost-btn:hover { border-color: var(--color-ink); transform: translateY(-2px); }
-
-    /* ---------- Header ---------- */
-    .glass {
-      background: color-mix(in srgb, var(--color-page) 62%, transparent);
-      backdrop-filter: blur(22px) saturate(150%);
-      border-bottom: 1px solid var(--color-line);
-    }
-    .burger i { display: block; width: 22px; height: 1.5px; background: var(--color-ink); transition: transform .45s cubic-bezier(.76,0,.24,1), opacity .3s; }
-    .burger i + i { margin-top: 6px; }
-    .burger.open i:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
-    .burger.open i:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
-
-    /* ---------- Hero ---------- */
-    .hero-line { display: block; overflow: hidden; }
-    .hero-line span { display: block; }
-
-    /* ---------- Grid ---------- */
-    .masonry { columns: 1; column-gap: 1.15rem; }
-    @media (min-width: 700px) { .masonry { columns: 2; } }
-    @media (min-width: 1100px) { .masonry { columns: 3; } }
-    .tile {
-      break-inside: avoid;
-      margin-bottom: 1.15rem;
-      position: relative;
-      display: block;
-      width: 100%;
-      padding: 0; border: 0; background: none; cursor: pointer;
-      border-radius: 4px;
-      overflow: hidden;
-      color: inherit;
-      text-align: left;
-    }
-    .tile-media { position: relative; overflow: hidden; border-radius: 4px; background: var(--color-veil); }
-    .tile img, .tile video { width: 100%; display: block; transition: transform .9s cubic-bezier(.16,1,.3,1), filter .6s; will-change: transform; }
-    .tile video { position: absolute; inset: 0; height: 100%; object-fit: cover; opacity: 0; transition: opacity .45s; }
-    .tile.playing video { opacity: 1; }
-    .tile:hover img, .tile:focus-visible img { transform: scale(1.06); }
-    .tile-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0) 55%); opacity: 0; transition: opacity .5s; }
-    .tile:hover .tile-shade, .tile:focus-visible .tile-shade { opacity: 1; }
-    .tile-meta { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1rem; color: #f6f4f0; transform: translateY(12px); opacity: 0; transition: all .5s cubic-bezier(.16,1,.3,1); }
-    .tile:hover .tile-meta, .tile:focus-visible .tile-meta { transform: none; opacity: 1; }
-    .badge { position: absolute; top: 1rem; left: 1rem; display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .7rem; border-radius: 999px; background: rgba(10,10,10,.55); color: #f6f4f0; backdrop-filter: blur(8px); }
-
-    .tab { position: relative; padding: .6rem 1.2rem; border: 0; background: transparent; color: var(--color-soft); cursor: pointer; font: 500 .78rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; transition: color .3s; }
-    .tab[aria-selected="true"] { color: var(--color-page); }
-    .tab-track { position: relative; display: inline-flex; flex-wrap: wrap; gap: .2rem; padding: .3rem; border: 1px solid var(--color-line); border-radius: 999px; }
-    .tab-pill { position: absolute; z-index: -1; top: .3rem; left: 0; height: calc(100% - .6rem); border-radius: 999px; background: var(--color-ink); transition: transform .55s cubic-bezier(.16,1,.3,1), width .55s cubic-bezier(.16,1,.3,1); }
-
-    /* ---------- Overlay menu ---------- */
-    #overlay { position: fixed; inset: 0; z-index: 80; background: var(--color-page); clip-path: circle(0% at calc(100% - 46px) 46px); visibility: hidden; }
-    #overlay.open { visibility: visible; }
-    .overlay-link { font-family: var(--font-display); font-size: clamp(2.6rem, 9vw, 6rem); line-height: 1; display: inline-block; text-decoration: none; color: var(--color-ink); transition: opacity .3s, transform .5s cubic-bezier(.16,1,.3,1); }
-    .overlay-link:hover { opacity: .55; transform: translateX(16px); }
-
-    /* ---------- Lightbox ---------- */
-    #lightbox { position: fixed; inset: 0; z-index: 100; display: none; background: color-mix(in srgb, var(--color-page) 92%, transparent); backdrop-filter: blur(20px); }
-    #lightbox.open { display: grid; }
-    #lb-frame img, #lb-frame video { max-height: 68vh; width: auto; max-width: 100%; border-radius: 4px; display: block; margin: 0 auto; }
-    .spec { border-top: 1px solid var(--color-line); padding: .7rem 0; display: flex; justify-content: space-between; gap: 1rem; }
-
-    /* ---------- Ink drop ---------- */
-    #ink { position: fixed; z-index: 120; width: 10px; height: 10px; border-radius: 999px; pointer-events: none; transform: scale(0); opacity: 0; }
-
-    .reveal { opacity: 0; transform: translateY(34px); }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-      html { scroll-behavior: auto; }
-    }
-
-    /* Hero image - big, front and center */
-    .hero-image-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .hero-image-wrap img {
-      max-width: 100%;
-      width: 320px;
-      height: 320px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid var(--color-line);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .hero-image-wrap img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    }
-    @media (min-width: 768px) {
-      .hero-image-wrap img {
-        width: 400px;
-        height: 400px;
-      }
-    }
-    @media (min-width: 1024px) {
-      .hero-image-wrap img {
-        width: 480px;
-        height: 480px;
-      }
-    }
-    /* remove background image from body */
-    body {
-      background: var(--color-page);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+<title>Dishant Mote Portfolio</title>
+<style>
+@import url('https://googleapis.com');
+• {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+html {
+scroll-behavior: smooth;
+height: -webkit-fill-available;
+}
+body {
+background-color: #ffffff;
+color: #1c1c1c;
+font-family: 'Montserrat', sans-serif;
+overflow-x: hidden;
+position: relative;
+min-height: 100vh;
+}
+header {
+background: rgba(255,255,255,0.95);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+padding: 20px 40px;
+position: sticky;
+top: 0;
+z-index: 100;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #f0f0f0;
+}
+header .logo {
+font-weight: 700;
+font-size: 1.1rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: #000;
+}
+nav a {
+color: #666;
+text-decoration: none;
+margin-left: 20px;
+font-weight: 600;
+font-size: 10px;
+letter-spacing: 1px;
+text-transform: uppercase;
+transition: 0.3s;
+}
+nav a:hover, nav a.active {
+color: #e5a93b;
+}
+.hero-section {
+display: flex;
+align-items: center;
+min-height: calc(100vh - 80px);
+width: 100%;
+position: relative;
+flex-wrap: wrap;
+}
+.hero-image-side {
+width: 50%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+overflow: hidden;
+}
+.hero-image-side img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+mask-image: linear-gradient(to right, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+-webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+}
+.hero-text-side {
+width: 48%;
+margin-left: 52%;
+padding: 40px;
+z-index: 5;
+}
+.hero-text-side .sub-tag {
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 3px;
+color: #e5a93b;
+text-transform: uppercase;
+margin-bottom: 12px;
+}
+.hero-text-side h1 {
+font-family: 'Playfair Display', serif;
+font-size: 2.8rem;
+font-weight: 700;
+line-height: 1.2;
+color: #111;
+margin-bottom: 20px;
+}
+.hero-text-side h1 span {
+font-family: 'Playfair Display', serif;
+font-weight: 400;
+font-style: italic;
+color: #666;
+}
+.hero-text-side p {
+font-size: 14px;
+line-height: 1.7;
+color: #666;
+max-width: 420px;
+margin-bottom: 30px;
+}
+.liquid-container {
+position: relative;
+display: inline-block;
+border-radius: 30px;
+overflow: hidden;
+background: #e5a93b;
+border: 2px solid #e5a93b;
+cursor: pointer;
+transition: all 0.4s ease;
+z-index: 1;
+transform: translateY(0);
+}
+.liquid-container:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 25px rgba(229,169,59,0.4);
+border-color: #000;
+}
+.liquid-btn {
+position: relative;
+padding: 15px 35px;
+background: transparent;
+color: #fff;
+font-family: 'Montserrat', sans-serif;
+font-size: 10px;
+font-weight: 700;
+border: none;
+cursor: pointer;
+letter-spacing: 2px;
+text-transform: uppercase;
+z-index: 5;
+}
+.liquid-bg {
+position: absolute;
+top: -40%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: #000;
+border-radius: 42%;
+z-index: 2;
+animation: spinLiquid 5s linear infinite;
+}
+@keyframes spinLiquid {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+.container {
+max-width: 1100px;
+margin: 0 auto;
+padding: 60px 15px;
+}
+.section-title {
+font-family: 'Playfair Display', serif;
+text-align: center;
+font-size: 2.2rem;
+font-weight: 700;
+margin-bottom: 45px;
+position: relative;
+}
+.section-title::after {
+content: '';
+width: 35px;
+height: 3px;
+background: #e5a93b;
+position: absolute;
+bottom: -12px;
+left: 50%;
+transform: translateX(-50%);
+}
+.gallery-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+gap: 25px;
+}
+.gallery-item {
+position: relative;
+overflow: hidden;
+background: #f9f9f9;
+border-radius: 8px;
+cursor: pointer;
+height: 400px;
+transition: 0.5s;
+}
+.gallery-item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.gallery-item:hover img {
+transform: scale(1.03);
+}
+.services-section .service-card {
+transition: all 0.3s ease;
+}
+.services-section .service-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+border-color: #e5a93b !important;
+}
+.contact-section {
+background-color: #fbfbfb;
+border-top: 1px solid #f0f0f0;
+padding: 80px 15px;
+text-align: center;
+}
+.contact-container {
+max-width: 550px;
+margin: 0 auto;
+background: #ffffff;
+padding: 30px;
+border-radius: 12px;
+box-shadow: 0 8px 30px rgba(0,0,0,0.02);
+border: 1px solid #f0f0f0;
+}
+.contact-details {
+margin-top: 20px;
+text-align: left;
+display: inline-block;
+width: 100%;
+max-width: 400px;
+}
+.contact-item {
+margin-bottom: 15px;
+font-size: 14px;
+color: #444;
+letter-spacing: 0.5px;
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+}
+.contact-item strong {
+color: #111;
+text-transform: uppercase;
+font-size: 11px;
+display: inline-block;
+width: 110px;
+}
+.contact-item a {
+color: #e5a93b;
+text-decoration: none;
+font-weight: 600;
+transition: 0.3s;
+}
+.contact-item a:hover {
+color: #000;
+}
+.lightbox {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(255,255,255,0.98);
+z-index: 1000;
+justify-content: center;
+align-items: center;
+}
+.lightbox img {
+max-width: 90%;
+max-height: 80%;
+object-fit: contain;
+border-radius: 4px;
+box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+}
+.close-box {
+position: absolute;
+top: 30px;
+right: 35px;
+color: #000;
+font-size: 40px;
+cursor: pointer;
+font-weight: 100;
+transition: 0.3s;
+line-height: 1;
+}
+.close-box:hover {
+color: #e5a93b;
+transform: rotate(90deg);
+}
+footer {
+text-align: center;
+padding: 30px;
+background: #ffffff;
+font-size: 10px;
+letter-spacing: 1.5px;
+color: #888;
+border-top: 1px solid #f0f0f0;
+}
+@media (max-width: 768px) {
+header {
+padding: 15px;
+flex-direction: column;
+gap: 12px;
+}
+nav a {
+margin: 0 8px;
+font-size: 9px;
+}
+.hero-section {
+min-height: auto;
+}
+.hero-image-side {
+position: relative;
+width: 100%;
+height: 320px;
+}
+.hero-image-side img {
+mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+}
+.hero-text-side {
+width: 100%;
+margin-left: 0;
+padding: 30px 15px;
+text-align: center;
+}
+.hero-text-side h1 {
+font-size: 2.1rem;
+}
+.hero-text-side p {
+margin: 0 auto 25px auto;
+}
+.gallery-grid {
+grid-template-columns: 1fr;
+}
+.gallery-item {
+height: 320px;
+}
+.contact-item {
+flex-direction: column;
+text-align: center;
+gap: 3px;
+}
+.contact-item strong {
+width: 100%;
+}
+.contact-details {
+text-align: center;
+margin-top: 15px;
+}
+.close-box {
+top: 15px;
+right: 20px;
+font-size: 32px;
+}
+}
+</style>
 </head>
 <body>
-
-<!-- SVG filters -->
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-  <defs>
-    <filter id="liquid-goo">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur" />
-      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -11" result="goo" />
-      <feBlend in="SourceGraphic" in2="goo" />
-    </filter>
-  </defs>
-</svg>
-
-<div id="ink"></div>
-
-<!-- Header -->
-<header class="glass fixed top-0 left-0 right-0 z-[90]">
-  <div class="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
-    <a href="#top" class="flex items-center gap-3 no-underline text-[color:var(--color-ink)]">
-      <span class="serif text-2xl leading-none">DM</span>
-      <span class="mono hidden leading-[1.35] text-[color:var(--color-soft)] sm:block">Dishant<br />Mote</span>
-    </a>
-    <nav class="hidden items-center gap-9 md:flex" aria-label="Primary">
-      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#top">Home</a>
-      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#work">Portfolio</a>
-      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#services">Services</a>
-      <a class="mono no-underline text-[color:var(--color-soft)] transition-colors hover:text-[color:var(--color-ink)]" href="#contact">Contact</a>
-    </nav>
-    <div class="flex items-center gap-2">
-      <button id="theme-toggle" class="ghost-btn !px-3 !py-3" aria-label="Switch theme" title="Switch theme">
-        <i data-lucide="sun" class="h-4 w-4" id="theme-icon"></i>
-      </button>
-      <button id="menu-toggle" class="ghost-btn burger !px-3 !py-3" aria-expanded="false" aria-controls="overlay" aria-label="Open menu">
-        <i></i><i></i>
-      </button>
-    </div>
-  </div>
+<header>
+<div class="logo">DISHANT MOTE</div>
+<nav>
+<a href="#home" class="active">Home</a>
+<a href="#portfolio">Portfolio</a>
+<a href="#services">Services</a>
+<a href="#contact">Contacts</a>
+</nav>
 </header>
 
-<!-- Overlay menu -->
-<div id="overlay" role="dialog" aria-modal="true" aria-label="Site menu">
-  <div class="mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 md:px-10">
-    <p class="mono mb-8 text-[color:var(--color-soft)]">Menu / Dishant Mote Studio</p>
-    <nav class="flex flex-col gap-2" aria-label="Overlay">
-      <a class="overlay-link" href="#top" data-close>Home</a>
-      <a class="overlay-link" href="#work" data-close>Portfolio</a>
-      <a class="overlay-link" href="#services" data-close>Services</a>
-      <a class="overlay-link" href="#contact" data-close>Contact</a>
-    </nav>
-    <div class="mono mt-12 flex flex-wrap gap-x-10 gap-y-2 text-[color:var(--color-soft)]">
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="https://www.instagram.com/dishant_mote_photography" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="tel:+919309405055">+91 93094 05055</a>
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a>
-    </div>
-  </div>
+<section id="home" class="hero-section">
+<div class="hero-image-side">
+<img src="dishant.jpg" alt="Dishant Mote Portfolio">
+</div>
+<div class="hero-text-side">
+<p class="sub-tag">I'm Dishant Mote</p>
+<h1>Photographer<br><span>& Visual Artist</span></h1>
+<p>Based in India, I specialize in professional portraits, high-end commercial editorial layouts, and outdoor lifestyle photography campaigns.</p>
+<div class="liquid-container">
+<div class="liquid-bg"></div>
+<button class="liquid-btn" onclick="document.getElementById('portfolio').scrollIntoView();">View Portfolio</button>
+</div>
+</div>
+</section>
+
+<div class="container" id="portfolio">
+<h2 class="section-title">Portfolio</h2>
+<div class="gallery-grid">
+<div class="gallery-item" onclick="openLightbox(this)"><img src="1.jpg" alt="Photo 1"></div>
+<div class="gallery-item" onclick="openLightbox(this)"><img src="2.jpg" alt="Photo 2"></div>
+<div class="gallery-item" onclick="openLightbox(this)"><img src="3.jpg" alt="Photo 3"></div>
+<div class="gallery-item" onclick="openLightbox(this)"><img src="4.jpg" alt="Photo 4"></div>
+<div class="gallery-item" onclick="openLightbox(this)"><img src="5.jpg" alt="Photo 5"></div>
+<div class="gallery-item" onclick="openLightbox(this)"><img src="6.jpg" alt="Photo 6"></div>
+</div>
 </div>
 
-<main id="top">
-  <!-- Hero with dishant.jpg prominently displayed -->
-  <section class="relative mx-auto flex min-h-[100svh] max-w-[1500px] flex-col justify-center px-5 pt-32 pb-14 md:px-10 md:pb-20">
-    
-    <!-- Big image of Dishant -->
-    <div class="hero-image-wrap">
-      <img src="dishant.jpg" alt="Dishant Mote - Photographer & Visual Artist" />
-    </div>
+<section id="services" class="services-section" style="background-color: #ffffff; padding: 60px 15px;">
+<h2 class="section-title" style="font-family: 'Playfair Display', serif; text-align: center; font-size: 2.2rem; font-weight: 700; margin-bottom: 45px; position: relative;">My Services</h2>
+<div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto;">
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">📷</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Photography</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">📹</div><h3 style="font-size: 16px; font-weight: 700; text-transform: uppercase;">Videography</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">🎬</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Cinematic Reels</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">✨</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Candid Shoot</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">🧸</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Baby Shoot</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">🤰</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Maternity Shoot</h3></div>
+<div class="service-card" style="background: #fbfbfb; border: 1px solid #f0f0f0; padding: 35px 25px; border-radius: 12px; text-align: center;"><div style="font-size: 2.2rem; color: #e5a93b; margin-bottom: 12px;">💍</div><h3 style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Pre-Wedding</h3></div>
+</div>
+</section>
 
-    <div class="mono mb-6 flex justify-between text-[color:var(--color-soft)]">
-      <span>I'm Dishant Mote</span><span>India · Worldwide</span>
-    </div>
-    <h1 class="serif m-0 text-center text-[clamp(3rem,13vw,11rem)] leading-[0.88] tracking-[-0.02em]">
-      <span class="hero-line"><span class="hero-anim">Photographer</span></span>
-      <span class="hero-line"><span class="hero-anim">&amp; Visual</span></span>
-      <span class="hero-line"><span class="hero-anim italic text-[color:var(--color-soft)]">Artist.</span></span>
-    </h1>
-    <div class="mt-12 flex flex-col items-center gap-8 border-t border-[color:var(--color-line)] pt-8 md:flex-row md:items-center md:justify-between">
-      <p class="m-0 max-w-md text-center text-[0.98rem] leading-relaxed text-[color:var(--color-soft)] md:text-left">
-        Based in India, I specialise in professional portraits, high-end commercial editorial layouts and outdoor lifestyle photography campaigns.
-      </p>
-      <a href="#work" class="liquid-btn" aria-label="View portfolio">
-        <span class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span class="relative">View Portfolio</span>
-      </a>
-    </div>
-  </section>
+<section id="contact" class="contact-section">
+<h2 class="section-title">Contact Me</h2>
+<div class="contact-container">
+<div class="contact-details">
+<div class="contact-item"><strong>Name:</strong> Dishant Mote</div>
+<div class="contact-item"><strong>Instagram:</strong> <a href="https://instagram.com" target="_blank">@dishant_mote_photography</a></div>
+<div class="contact-item"><strong>Contact:</strong> <a href="tel:+919309405055">+91 9309405055</a></div>
+<div class="contact-item"><strong>Email:</strong> <a href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></div>
+</div>
+</div>
+</section>
 
-  <!-- Portfolio -->
-  <section id="work" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
-    <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
-      <div>
-        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">Selected work / 2024—26</p>
-        <h2 class="serif m-0 text-[clamp(2.4rem,6vw,4.5rem)] leading-none">Portfolio</h2>
-      </div>
-      <div class="tab-track goo-host" role="tablist" aria-label="Filter portfolio">
-        <span class="tab-pill" aria-hidden="true"></span>
-        <button class="tab" role="tab" aria-selected="true" data-filter="all">All</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="stills">Stills</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="motion">Motion Reels</button>
-      </div>
-    </div>
-    <div id="grid" class="masonry"></div>
-  </section>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<span class="close-box">×</span>
+<img id="lightbox-img" src="" alt="Popup Frame">
+</div>
 
-  <!-- Services -->
-  <section id="services" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
-    <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
-      <div>
-        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">What I offer</p>
-        <h2 class="serif m-0 text-[clamp(2.4rem,6vw,4.5rem)] leading-none">My Services</h2>
-      </div>
-      <span class="mono text-[color:var(--color-soft)]">07</span>
-    </div>
-    <ul id="services-grid" class="grid list-none grid-cols-1 gap-px overflow-hidden rounded border border-[color:var(--color-line)] bg-[color:var(--color-line)] p-0 sm:grid-cols-2 lg:grid-cols-4"></ul>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
-    <div class="reveal grid gap-12 lg:grid-cols-[1fr_1fr]">
-      <div>
-        <p class="mono m-0 mb-3 text-[color:var(--color-soft)]">Contact / 01</p>
-        <h2 class="serif m-0 text-[clamp(2.6rem,8vw,6rem)] leading-[0.92]">Let's make<br />something.</h2>
-        <a href="mailto:motedishant93@gmail.com" class="liquid-btn mt-10 inline-block no-underline">
-          <span class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="relative">Start a conversation</span>
-        </a>
-      </div>
-      <dl class="m-0 self-end">
-        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Name</dt><dd class="m-0">Dishant Mote</dd></div>
-        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Instagram</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/dishant_mote_photography">@dishant_mote_photography</a></dd></div>
-        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Contact</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" href="tel:+919309405055">+91 9309405055</a></dd></div>
-        <div class="spec"><dt class="mono text-[color:var(--color-soft)]">Email</dt><dd class="m-0"><a class="no-underline text-[color:var(--color-ink)] underline-offset-4 hover:underline" href="mailto:motedishant93@gmail.com">motedishant93@gmail.com</a></dd></div>
-      </dl>
-    </div>
-  </section>
-</main>
-
-<footer class="border-t border-[color:var(--color-line)]">
-  <div class="mx-auto flex max-w-[1500px] flex-col gap-6 px-5 py-10 md:flex-row md:items-center md:justify-between md:px-10">
-    <div class="flex items-center gap-3">
-      <span class="serif text-2xl leading-none">DM</span>
-      <span class="mono leading-[1.35] text-[color:var(--color-soft)]">Dishant<br />Mote</span>
-    </div>
-    <p class="mono m-0 text-[color:var(--color-soft)]">© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p>
-    <div class="mono flex gap-6">
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="https://www.instagram.com/dishant_mote_photography" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="tel:+919309405055">Call</a>
-      <a class="no-underline text-[color:var(--color-soft)] hover:text-[color:var(--color-ink)]" href="#top">Back to top ↑</a>
-    </div>
-  </div>
+<footer>
+<p>© 2026 Dishant Mote Photography Studio. All Rights Reserved.</p>
 </footer>
 
-<!-- Lightbox -->
-<div id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
-  <div class="mx-auto flex h-full w-full max-w-[1500px] flex-col px-5 py-6 md:px-10 md:py-8">
-    <div class="flex items-center justify-between">
-      <span class="mono text-[color:var(--color-soft)]">DM / Archive</span>
-      <div class="flex gap-2">
-        <button id="lb-share" class="ghost-btn !px-3 !py-3" aria-label="Share this project"><i data-lucide="share-2" class="h-4 w-4"></i></button>
-        <button id="lb-close" class="ghost-btn !px-3 !py-3" aria-label="Close viewer"><i data-lucide="x" class="h-4 w-4"></i></button>
-      </div>
-    </div>
-    <div id="lb-frame" class="flex min-h-0 flex-1 items-center justify-center py-6"></div>
-    <div class="grid gap-8 border-t border-[color:var(--color-line)] pt-6 lg:grid-cols-[1fr_1.1fr]">
-      <div>
-        <p id="lb-kicker" class="mono m-0 mb-2 text-[color:var(--color-soft)]"></p>
-        <h2 id="lb-title" class="serif m-0 text-[clamp(1.8rem,4vw,3rem)] leading-none"></h2>
-      </div>
-      <dl id="lb-specs" class="m-0 grid gap-x-10 sm:grid-cols-2"></dl>
-    </div>
-    <div class="mt-6 flex items-center justify-between">
-      <button id="lb-prev" class="ghost-btn !px-3 !py-3" aria-label="Previous project"><i data-lucide="arrow-left" class="h-4 w-4"></i></button>
-      <span id="lb-count" class="mono text-[color:var(--color-soft)]"></span>
-      <button id="lb-next" class="ghost-btn !px-3 !py-3" aria-label="Next project"><i data-lucide="arrow-right" class="h-4 w-4"></i></button>
-    </div>
-  </div>
-</div>
-
 <script>
-(function () {
-  "use strict";
-
-  /* ---------------------------------------------------------------
-     DATA (local images)
-  --------------------------------------------------------------- */
-  var WORKS = [
-    { id:"img1", type:"stills", title:"Nocturne I", location:"Vík, Iceland", year:"2026",
-      img:"1.jpg", alt:"Photo 1",
-      camera:"Leica SL3", lens:"50mm Summilux", iso:"ISO 200", aperture:"ƒ/2.8", shutter:"1/800s" },
-    { id:"img2", type:"stills", title:"Monument", location:"Osaka, Japan", year:"2025",
-      img:"2.jpg", alt:"Photo 2",
-      camera:"Hasselblad X2D", lens:"38mm XCD", iso:"ISO 100", aperture:"ƒ/8", shutter:"1/125s" },
-    { id:"img3", type:"stills", title:"Undertow", location:"North Shore, Oʻahu", year:"2026",
-      img:"3.jpg", alt:"Photo 3",
-      camera:"RED V-Raptor", lens:"24mm Signature Prime", iso:"ISO 800", aperture:"T2.8", shutter:"1/1000s" },
-    { id:"img4", type:"stills", title:"Vesper", location:"London, England", year:"2026",
-      img:"4.jpg", alt:"Photo 4",
-      camera:"Phase One XF", lens:"80mm Schneider", iso:"ISO 50", aperture:"ƒ/5.6", shutter:"1/160s" },
-    { id:"img5", type:"stills", title:"After Rain", location:"Tokyo, Japan", year:"2025",
-      img:"5.jpg", alt:"Photo 5",
-      camera:"Sony A1 II", lens:"35mm GM", iso:"ISO 3200", aperture:"ƒ/1.4", shutter:"1/250s" },
-    { id:"img6", type:"stills", title:"Trace", location:"Makgadikgadi, Botswana", year:"2024",
-      img:"6.jpg", alt:"Photo 6",
-      camera:"DJI Mavic 3 Pro", lens:"24mm Hasselblad", iso:"ISO 100", aperture:"ƒ/5.6", shutter:"1/500s" }
-  ];
-
-  var SERVICES = [
-    { icon:"camera", label:"Photography", blurb:"Portraits, editorial and commercial stills shot with a cinematic eye." },
-    { icon:"video", label:"Videography", blurb:"Full-service film coverage for brands, events and personal stories." },
-    { icon:"clapperboard", label:"Cinematic Reels", blurb:"Short-form vertical films crafted for social reach and impact." },
-    { icon:"sparkles", label:"Candid Shoot", blurb:"Unposed, in-the-moment frames that keep the day feeling real." },
-    { icon:"baby", label:"Baby Shoot", blurb:"Gentle, safe newborn and toddler sessions in soft natural light." },
-    { icon:"heart-pulse", label:"Maternity Shoot", blurb:"Elegant maternity portraits, in studio or on location outdoors." },
-    { icon:"gem", label:"Pre-Wedding", blurb:"Story-led pre-wedding shoots across scenic Indian locations." },
-    { icon:"mail", label:"Custom Brief", blurb:"Have something else in mind? Tell me the idea and we'll shape it." }
-  ];
-
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var $ = function (sel, root) { return (root || document).querySelector(sel); };
-  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
-
-  /* ---------------------------------------------------------------
-     RENDER GRID
-  --------------------------------------------------------------- */
-  var grid = $("#grid");
-  var current = "all";
-
-  function tileHTML(work, index) {
-    var isMotion = work.type === "motion";
-    return '' +
-      '<button class="tile" data-index="' + index + '" data-type="' + work.type + '" ' +
-        'data-title="' + work.title + '" data-location="' + work.location + '" data-year="' + work.year + '" ' +
-        'data-camera="' + work.camera + '" data-lens="' + work.lens + '" data-iso="' + work.iso + '" ' +
-        'data-aperture="' + work.aperture + '" data-shutter="' + work.shutter + '" ' +
-        'aria-label="Open ' + work.title + ', ' + work.location + '">' +
-        '<span class="tile-media block">' +
-          '<img src="' + work.img + '" alt="' + work.alt + '" loading="' + (index < 3 ? "eager" : "lazy") + '" decoding="async" />' +
-          (isMotion ? '<video src="' + work.video + '" poster="' + work.img + '" muted loop playsinline preload="none"></video>' : '') +
-          '<span class="tile-shade"></span>' +
-          (isMotion ? '<span class="badge mono"><i data-lucide="play" class="h-3 w-3"></i>Reel</span>' : '') +
-          '<span class="tile-meta">' +
-            '<span class="serif block text-2xl leading-none">' + work.title + '</span>' +
-            '<span class="mono mt-2 flex justify-between opacity-80"><span>' + work.location + '</span><span>' + work.year + '</span></span>' +
-          '</span>' +
-        '</span>' +
-      '</button>';
-  }
-
-  function renderGrid(filter) {
-    current = filter;
-    var html = "";
-    WORKS.forEach(function (w, i) {
-      if (filter === "all" || w.type === filter) html += tileHTML(w, i);
-    });
-    grid.innerHTML = html;
-    if (window.lucide) window.lucide.createIcons();
-    bindTiles();
-    if (window.gsap && !reduceMotion) {
-      gsap.fromTo($$(".tile", grid), { opacity: 0, y: 26 },
-        { opacity: 1, y: 0, duration: .6, stagger: .05, ease: "power3.out", clearProps: "transform" });
-    }
-  }
-
-  function bindTiles() {
-    $$(".tile", grid).forEach(function (tile) {
-      var video = $("video", tile);
-      if (video) {
-        var play = function () {
-          tile.classList.add("playing");
-          video.play().catch(function () { tile.classList.remove("playing"); });
-        };
-        var stop = function () {
-          tile.classList.remove("playing");
-          video.pause();
-          video.currentTime = 0;
-        };
-        tile.addEventListener("pointerenter", play);
-        tile.addEventListener("pointerleave", stop);
-        tile.addEventListener("focus", play);
-        tile.addEventListener("blur", stop);
-      }
-      tile.addEventListener("click", function () { openLightbox(parseInt(tile.dataset.index, 10)); });
-    });
-  }
-
-  /* ---------------------------------------------------------------
-     TABS + GOOEY PILL
-  --------------------------------------------------------------- */
-  var tabs = $$(".tab");
-  var pill = $(".tab-pill");
-
-  function movePill(tab) {
-    pill.style.width = tab.offsetWidth + "px";
-    pill.style.transform = "translateX(" + tab.offsetLeft + "px)";
-  }
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t === tab)); });
-      movePill(tab);
-      renderGrid(tab.dataset.filter);
-    });
-  });
-  window.addEventListener("resize", function () {
-    var active = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0];
-    if (active) movePill(active);
-  });
-
-  /* ---------------------------------------------------------------
-     SERVICES
-  --------------------------------------------------------------- */
-  $("#services-grid").innerHTML = SERVICES.map(function (s) {
-    return '<li class="bg-[color:var(--color-page)] p-7 transition-colors hover:bg-[color:var(--color-veil)]">' +
-      '<i data-lucide="' + s.icon + '" class="h-6 w-6 text-[color:var(--color-ink)]"></i>' +
-      '<h3 class="serif mt-5 mb-2 text-2xl leading-none">' + s.label + '</h3>' +
-      '<p class="m-0 text-sm leading-relaxed text-[color:var(--color-soft)]">' + s.blurb + '</p>' +
-    '</li>';
-  }).join("");
-
-  /* ---------------------------------------------------------------
-     LIGHTBOX
-  --------------------------------------------------------------- */
-  var lb = $("#lightbox");
-  var lbFrame = $("#lb-frame");
-  var lbIndex = 0;
-
-  function openLightbox(index) {
-    lbIndex = index;
-    var w = WORKS[index];
-    lbFrame.innerHTML = w.type === "motion"
-      ? '<video src="' + w.video + '" poster="' + w.img + '" controls autoplay muted loop playsinline></video>'
-      : '<img src="' + w.img + '" alt="' + w.alt + '" />';
-    $("#lb-kicker").textContent = (w.type === "motion" ? "Motion Reel" : "Still") + " · " + w.location;
-    $("#lb-title").textContent = w.title;
-    $("#lb-specs").innerHTML = [
-      ["Camera", w.camera], ["Lens", w.lens], ["ISO", w.iso],
-      ["Aperture", w.aperture], ["Shutter Speed", w.shutter], ["Year", w.year]
-    ].map(function (row) {
-      return '<div class="spec"><dt class="mono text-[color:var(--color-soft)]">' + row[0] + '</dt><dd class="m-0">' + row[1] + '</dd></div>';
-    }).join("");
-    $("#lb-count").textContent = String(index + 1).padStart(2, "0") + " / " + String(WORKS.length).padStart(2, "0");
-
-    lb.classList.add("open");
-    document.body.classList.add("locked");
-    if (window.lucide) window.lucide.createIcons();
-    if (window.gsap && !reduceMotion) {
-      gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .35, ease: "power2.out" });
-      gsap.fromTo(lbFrame.firstElementChild, { scale: .88, opacity: 0 }, { scale: 1, opacity: 1, duration: .7, ease: "power3.out" });
-    }
-    $("#lb-close").focus();
-  }
-
-  function closeLightbox() {
-    var finish = function () {
-      lb.classList.remove("open");
-      lbFrame.innerHTML = "";
-      document.body.classList.remove("locked");
-    };
-    if (window.gsap && !reduceMotion) gsap.to(lb, { opacity: 0, duration: .28, onComplete: finish });
-    else finish();
-  }
-
-  function stepLightbox(dir) {
-    openLightbox((lbIndex + dir + WORKS.length) % WORKS.length);
-  }
-
-  $("#lb-close").addEventListener("click", closeLightbox);
-  $("#lb-prev").addEventListener("click", function () { stepLightbox(-1); });
-  $("#lb-next").addEventListener("click", function () { stepLightbox(1); });
-  lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
-  $("#lb-share").addEventListener("click", function () {
-    var w = WORKS[lbIndex];
-    var data = { title: w.title, text: w.title + " — " + w.location + " by Dishant Mote", url: location.href };
-    if (navigator.share) navigator.share(data).catch(function () {});
-    else if (navigator.clipboard) navigator.clipboard.writeText(location.href);
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (lb.classList.contains("open")) {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight") stepLightbox(1);
-      if (e.key === "ArrowLeft") stepLightbox(-1);
-    } else if (e.key === "Escape" && overlay.classList.contains("open")) {
-      toggleMenu(false);
-    }
-  });
-
-  /* touch swipe */
-  var touchX = null;
-  lb.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener("touchend", function (e) {
-    if (touchX === null) return;
-    var dx = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 55) stepLightbox(dx > 0 ? 1 : -1);
-    touchX = null;
-  }, { passive: true });
-
-  /* ---------------------------------------------------------------
-     OVERLAY MENU
-  --------------------------------------------------------------- */
-  var overlay = $("#overlay");
-  var menuBtn = $("#menu-toggle");
-
-  function toggleMenu(open) {
-    menuBtn.classList.toggle("open", open);
-    menuBtn.setAttribute("aria-expanded", String(open));
-    menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    document.body.classList.toggle("locked", open);
-    if (open) overlay.classList.add("open");
-
-    if (window.gsap && !reduceMotion) {
-      gsap.to(overlay, {
-        clipPath: open ? "circle(150% at calc(100% - 46px) 46px)" : "circle(0% at calc(100% - 46px) 46px)",
-        duration: .8, ease: "power4.inOut",
-        onComplete: function () { if (!open) overlay.classList.remove("open"); }
-      });
-      if (open) {
-        gsap.fromTo($$(".overlay-link"), { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, duration: .7, stagger: .07, ease: "power3.out", delay: .2 });
-      }
-    } else {
-      overlay.style.clipPath = open ? "circle(150% at 50% 50%)" : "circle(0% at 100% 0%)";
-      if (!open) overlay.classList.remove("open");
-    }
-  }
-
-  menuBtn.addEventListener("click", function () { toggleMenu(!menuBtn.classList.contains("open")); });
-  $$("[data-close]").forEach(function (a) { a.addEventListener("click", function () { toggleMenu(false); }); });
-
-  /* ---------------------------------------------------------------
-     LIQUID INK THEME SWITCHER
-  --------------------------------------------------------------- */
-  var ink = $("#ink");
-  var themeBtn = $("#theme-toggle");
-  var root = document.documentElement;
-  var themeTween = null;
-  var themeSafety = null;
-
-  function paintIcon() {
-    $("#theme-icon").setAttribute("data-lucide", root.classList.contains("light") ? "moon" : "sun");
-    if (window.lucide) window.lucide.createIcons();
-  }
-
-  function applyTheme(light) {
-    root.classList.toggle("light", light);
-    root.classList.toggle("dark", !light);
-    try { localStorage.setItem("dm-theme", light ? "light" : "dark"); } catch (err) {}
-    paintIcon();
-  }
-
-  themeBtn.addEventListener("click", function () {
-    var goingLight = !root.classList.contains("light");
-    var rect = themeBtn.getBoundingClientRect();
-    var cx = rect.left + rect.width / 2;
-    var cy = rect.top + rect.height / 2;
-    var radius = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy));
-
-    if (!window.gsap || reduceMotion) { applyTheme(goingLight); return; }
-
-    ink.style.background = goingLight ? "#f5f5f3" : "#0a0a0a";
-    ink.style.left = (cx - 5) + "px";
-    ink.style.top = (cy - 5) + "px";
-
-    if (themeTween) themeTween.kill();
-    clearTimeout(themeSafety);
-
-    gsap.set(ink, { scale: 0, opacity: 1 });
-    themeTween = gsap.timeline({ onComplete: function () { gsap.set(ink, { opacity: 0, scale: 0 }); } })
-      .to(ink, { scale: (radius / 5) * 1.08, duration: .85, ease: "power2.inOut" })
-      .add(function () { applyTheme(goingLight); }, "-=0.30")
-      .to(ink, { opacity: 0, duration: .35, ease: "power1.out" });
-
-    themeSafety = setTimeout(function () {
-      applyTheme(goingLight);
-      if (themeTween) themeTween.kill();
-      gsap.set(ink, { opacity: 0, scale: 0 });
-    }, 1600);
-  });
-
-  /* ---------------------------------------------------------------
-     INTRO + SCROLL REVEALS
-  --------------------------------------------------------------- */
-  function boot() {
-    try {
-      var saved = localStorage.getItem("dm-theme");
-      if (saved === "light") root.classList.add("light"), root.classList.remove("dark");
-    } catch (err) {}
-    paintIcon();
-
-    renderGrid("all");
-    movePill(tabs[0]);
-
-    if (window.lucide) window.lucide.createIcons();
-
-    if (window.gsap && !reduceMotion) {
-      gsap.fromTo(".hero-anim", { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .1, ease: "power4.out" });
-      if (window.ScrollTrigger) {
-        gsap.registerPlugin(ScrollTrigger);
-        $$(".reveal").forEach(function (el) {
-          gsap.to(el, {
-            opacity: 1, y: 0, duration: .8, ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%" }
-          });
-        });
-      } else {
-        gsap.set(".reveal", { opacity: 1, y: 0 });
-      }
-    } else {
-      $$(".reveal").forEach(function (el) { el.style.opacity = 1; el.style.transform = "none"; });
-    }
-  }
-
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
-})();
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+function openLightbox(el) {
+lightboxImg.src = el.querySelector('img').src;
+lightbox.style.display = 'flex';
+document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+lightbox.style.display = 'none';
+lightboxImg.src = '';
+document.body.style.overflow = 'auto';
+}
+window.addEventListener('scroll', () => {
+const sections = document.querySelectorAll('section, div.container, #contact');
+const navLinks = document.querySelectorAll('nav a');
+let current = '';
+sections.forEach(section => {
+const sectionTop = section.offsetTop;
+if (pageYOffset >= sectionTop - 150) {
+current = section.getAttribute('id');
+}
+});
+navLinks.forEach(a => {
+a.classList.remove('active');
+if (a.getAttribute('href').includes(current)) {
+a.classList.add('active');
+}
+});
+});
+document.addEventListener('touchstart', function (e) {
+if (e.touches.length > 1) { e.preventDefault(); }
+}, { passive: false });
 </script>
 </body>
 </html>
