@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover" />
-  <title>Dishant Mote · Photography</title>
-  <!-- fonts & lucide (from first code) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dishant Mote — Photographer &amp; Visual Artist</title>
+  <meta name="description" content="Luxury photography and film portfolio of Dishant Mote: portraits, editorial, cinematic reels, candid, maternity and pre-wedding work." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
@@ -13,10 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
-    /* ==========================================
-       MERGED STYLES: FIRST CODE STRUCTURE + SECOND CODE ASSETS
-    ========================================== */
-    /* ---------- Design tokens (plain CSS) ---------- */
+    /* ---------- Design tokens ---------- */
     :root {
       --color-page: #0a0a0a;
       --color-ink: #f2f0ec;
@@ -26,8 +23,6 @@
       --font-display: "Instrument Serif", Georgia, serif;
       --font-body: "Manrope", system-ui, sans-serif;
       --font-mono: "DM Mono", ui-monospace, monospace;
-      --gold: #e5a93b;
-      --gold-light: #f5c96a;
     }
     :root.light {
       --color-page: #f5f5f3;
@@ -38,7 +33,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--color-page);
@@ -46,22 +41,6 @@
       font-family: var(--font-body);
       overflow-x: hidden;
       transition: background 260ms linear, color 260ms linear;
-      min-height: 100vh;
-      background-image: url('background.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      background-blend-mode: overlay;
-    }
-    /* overlay to make text readable */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(10,10,10,0.45);
-      z-index: -1;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
     }
     body.locked { overflow: hidden; }
     ::selection { background: var(--color-ink); color: var(--color-page); }
@@ -69,8 +48,7 @@
     .serif { font-family: var(--font-display); font-weight: 400; }
     .mono { font-family: var(--font-mono); letter-spacing: .12em; text-transform: uppercase; font-size: .68rem; }
 
-    /* ---------- Gooey liquid (from first) ---------- */
-    .goo { filter: url(#liquid-goo); }
+    /* ---------- Gooey liquid ---------- */
     .liquid-btn {
       position: relative;
       isolation: isolate;
@@ -115,7 +93,7 @@
     }
     .ghost-btn:hover { border-color: var(--color-ink); transform: translateY(-2px); }
 
-    /* ---------- Header (glass from first) ---------- */
+    /* ---------- Header ---------- */
     .glass {
       background: color-mix(in srgb, var(--color-page) 62%, transparent);
       backdrop-filter: blur(22px) saturate(150%);
@@ -130,7 +108,7 @@
     .hero-line { display: block; overflow: hidden; }
     .hero-line span { display: block; }
 
-    /* ---------- Grid (masonry from first) ---------- */
+    /* ---------- Grid ---------- */
     .masonry { columns: 1; column-gap: 1.15rem; }
     @media (min-width: 700px) { .masonry { columns: 2; } }
     @media (min-width: 1100px) { .masonry { columns: 3; } }
@@ -184,16 +162,43 @@
       html { scroll-behavior: auto; }
     }
 
-    /* additional glass cards from second code */
-    .glass-card {
-      background: rgba(255,255,255,0.65);
-      backdrop-filter: blur(16px) saturate(1.4);
-      -webkit-backdrop-filter: blur(16px) saturate(1.4);
-      border: 1px solid rgba(255,255,255,0.3);
+    /* Hero image - big, front and center */
+    .hero-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
     }
-    /* fix for light mode text */
-    .light .hero-text-side h1, .light .hero-text-side p, .light .section-title { color: #111; }
-    .light .hero-text-side .sub-tag { color: var(--gold); }
+    .hero-image-wrap img {
+      max-width: 100%;
+      width: 320px;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--color-line);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-image-wrap img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+    @media (min-width: 768px) {
+      .hero-image-wrap img {
+        width: 400px;
+        height: 400px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .hero-image-wrap img {
+        width: 480px;
+        height: 480px;
+      }
+    }
+    /* remove background image from body */
+    body {
+      background: var(--color-page);
+    }
   </style>
 </head>
 <body>
@@ -211,7 +216,7 @@
 
 <div id="ink"></div>
 
-<!-- Header (first code style) -->
+<!-- Header -->
 <header class="glass fixed top-0 left-0 right-0 z-[90]">
   <div class="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
     <a href="#top" class="flex items-center gap-3 no-underline text-[color:var(--color-ink)]">
@@ -254,18 +259,24 @@
 </div>
 
 <main id="top">
-  <!-- Hero (first code style, but with local dishant.jpg) -->
-  <section class="relative mx-auto flex min-h-[100svh] max-w-[1500px] flex-col justify-end px-5 pb-14 pt-32 md:px-10 md:pb-20">
-    <div class="mono mb-8 flex justify-between text-[color:var(--color-soft)]">
+  <!-- Hero with dishant.jpg prominently displayed -->
+  <section class="relative mx-auto flex min-h-[100svh] max-w-[1500px] flex-col justify-center px-5 pt-32 pb-14 md:px-10 md:pb-20">
+    
+    <!-- Big image of Dishant -->
+    <div class="hero-image-wrap">
+      <img src="dishant.jpg" alt="Dishant Mote - Photographer & Visual Artist" />
+    </div>
+
+    <div class="mono mb-6 flex justify-between text-[color:var(--color-soft)]">
       <span>I'm Dishant Mote</span><span>India · Worldwide</span>
     </div>
-    <h1 class="serif m-0 text-[clamp(3rem,13vw,11rem)] leading-[0.88] tracking-[-0.02em]">
+    <h1 class="serif m-0 text-center text-[clamp(3rem,13vw,11rem)] leading-[0.88] tracking-[-0.02em]">
       <span class="hero-line"><span class="hero-anim">Photographer</span></span>
       <span class="hero-line"><span class="hero-anim">&amp; Visual</span></span>
       <span class="hero-line"><span class="hero-anim italic text-[color:var(--color-soft)]">Artist.</span></span>
     </h1>
-    <div class="mt-12 flex flex-col items-start gap-8 border-t border-[color:var(--color-line)] pt-8 md:flex-row md:items-center md:justify-between">
-      <p class="m-0 max-w-md text-[0.98rem] leading-relaxed text-[color:var(--color-soft)]">
+    <div class="mt-12 flex flex-col items-center gap-8 border-t border-[color:var(--color-line)] pt-8 md:flex-row md:items-center md:justify-between">
+      <p class="m-0 max-w-md text-center text-[0.98rem] leading-relaxed text-[color:var(--color-soft)] md:text-left">
         Based in India, I specialise in professional portraits, high-end commercial editorial layouts and outdoor lifestyle photography campaigns.
       </p>
       <a href="#work" class="liquid-btn" aria-label="View portfolio">
@@ -275,7 +286,7 @@
     </div>
   </section>
 
-  <!-- Portfolio (masonry grid from first, but using local 1.jpg ... 6.jpg) -->
+  <!-- Portfolio -->
   <section id="work" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
     <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
       <div>
@@ -292,7 +303,7 @@
     <div id="grid" class="masonry"></div>
   </section>
 
-  <!-- Services (from first code) -->
+  <!-- Services -->
   <section id="services" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
     <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[color:var(--color-line)] pb-6">
       <div>
@@ -304,7 +315,7 @@
     <ul id="services-grid" class="grid list-none grid-cols-1 gap-px overflow-hidden rounded border border-[color:var(--color-line)] bg-[color:var(--color-line)] p-0 sm:grid-cols-2 lg:grid-cols-4"></ul>
   </section>
 
-  <!-- Contact (first code) -->
+  <!-- Contact -->
   <section id="contact" class="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
     <div class="reveal grid gap-12 lg:grid-cols-[1fr_1fr]">
       <div>
@@ -371,7 +382,7 @@
   "use strict";
 
   /* ---------------------------------------------------------------
-     DATA – local images from second code (1.jpg … 6.jpg)
+     DATA (local images)
   --------------------------------------------------------------- */
   var WORKS = [
     { id:"img1", type:"stills", title:"Nocturne I", location:"Vík, Iceland", year:"2026",
@@ -410,7 +421,7 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
   /* ---------------------------------------------------------------
-     RENDER GRID (local images)
+     RENDER GRID
   --------------------------------------------------------------- */
   var grid = $("#grid");
   var current = "all";
